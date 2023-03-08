@@ -1,4 +1,4 @@
-from ..extensions import ma
+from ..common.extensions import ma
 from ..models.UserModel import UserModel
 
 class UserSchema(ma.SQLAlchemyAutoSchema):

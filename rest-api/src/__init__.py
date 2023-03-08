@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 from flask import Flask
 
-from .extensions import api, db, ma
+from .common.extensions import api, db, ma
 from .resources.User import User, UserList
 from .resources.Login import Login
 

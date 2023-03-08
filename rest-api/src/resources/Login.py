@@ -4,7 +4,7 @@ from werkzeug.security import check_password_hash
 import jwt
 import datetime
 
-from ..extensions import api, db
+from ..common.extensions import api, db
 from ..models.UserModel import UserModel
 
 class Login(Resource):

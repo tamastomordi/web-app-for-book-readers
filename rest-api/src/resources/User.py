@@ -1,7 +1,7 @@
 from flask_restful import Resource, reqparse
 from werkzeug.security import generate_password_hash
 
-from ..extensions import api, db
+from ..common.extensions import api, db
 
 from ..models.UserModel import UserModel
 from ..schemas.UserSchema import user_schema, users_schema
