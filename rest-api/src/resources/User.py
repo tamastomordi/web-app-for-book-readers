@@ -5,6 +5,7 @@ from ..common.extensions import api, db
 
 from ..models.UserModel import UserModel
 from ..schemas.UserSchema import user_schema, users_schema
+from ..common.auth import token_required
 
 class User(Resource):
 
@@ -38,7 +39,8 @@ class UserList(Resource):
       db.session.commit()
       return {'message': 'User successfully created'}, 201
 
-   def get(self):
+   @token_required
+   def get(current_user, self):
       users = UserModel.query.all()
       result = users_schema.dump(users)
       return {'users': result}, 200
