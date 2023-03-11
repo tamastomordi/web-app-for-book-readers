@@ -5,6 +5,7 @@ from flask import Flask
 from .common.extensions import api, db, ma
 from .resources.User import User, UserList
 from .resources.Book import Book, BookList
+from .resources.Author import Author, AuthorList
 from .resources.Login import Login
 
 load_dotenv()
@@ -19,6 +20,8 @@ def create_app():
    api.add_resource(Login, "/login")
    api.add_resource(BookList, "/books")
    api.add_resource(Book, "/books/<book_id>")
+   api.add_resource(AuthorList, "/authors")
+   api.add_resource(Author, "/authors/<author_id>")
 
    api.init_app(app)
    db.init_app(app)
