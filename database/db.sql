@@ -64,20 +64,13 @@ CREATE TABLE reading_(
 
 CREATE TABLE review_(
 	review_id_ SERIAL PRIMARY KEY,
-	rating_ INT,
-	review_text_ TEXT,
-	date_ DATE
-);
-
-CREATE TABLE user_book_(
 	user_id_ INT,
 	book_id_ INT,
-	reading_id_ INT,
-	review_id_ INT,
+	rating_ INT,
+	review_text_ TEXT,
+	date_ DATE,
 	CONSTRAINT fk_user_ FOREIGN KEY(user_id_) REFERENCES user_(user_id_),
-	CONSTRAINT fk_book_ FOREIGN KEY(book_id_) REFERENCES book_(book_id_),
-	CONSTRAINT fk_reading_ FOREIGN KEY(reading_id_) REFERENCES reading_(reading_id_),
-	CONSTRAINT fk_review_ FOREIGN KEY(review_id_) REFERENCES review_(review_id_)
+	CONSTRAINT fk_book_ FOREIGN KEY(book_id_) REFERENCES book_(book_id_)
 );
 
 CREATE TABLE author_book_(
