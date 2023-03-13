@@ -1,5 +1,4 @@
 from flask_restful import Resource, reqparse
-from werkzeug.security import generate_password_hash
 
 from ..common.extensions import db
 
@@ -23,21 +22,6 @@ class User(Resource):
       return {'message': 'User successfully deleted'}, 200
 
 class UserList(Resource):
-   
-   def __init__(self):
-      self.reqparse = reqparse.RequestParser()
-      self.reqparse.add_argument('username')
-      self.reqparse.add_argument('email')
-      self.reqparse.add_argument('password')
-      super(UserList, self).__init__()
-
-   def post(self):
-      args = self.reqparse.parse_args()
-      hashed_password = generate_password_hash(args['password'], method='sha256')
-      new_user = UserModel(username=args['username'], email=args['email'], password_hash=hashed_password)
-      db.session.add(new_user)
-      db.session.commit()
-      return {'message': 'User successfully created'}, 201
 
    @token_required
    def get(current_user, self):
