@@ -21,10 +21,23 @@ class User(Resource):
       db.session.commit()
       return {'message': 'User successfully deleted'}, 200
 
+class UserByEmail(Resource):
+   def get(self, email):
+      user = UserModel.query.filter_by(email=email).first()
+      result = user_schema.dump(user)
+      return {'user': result}, 200
+
+class UserByUsername(Resource):
+   def get(self, username):
+      user = UserModel.query.filter_by(username=username).first()
+      result = user_schema.dump(user)
+      return {'user': result}, 200
+
+
 class UserList(Resource):
 
-   @token_required
-   def get(current_user, self):
+   #@token_required
+   def get(self):
       users = UserModel.query.all()
       result = users_schema.dump(users)
       return {'users': result}, 200
