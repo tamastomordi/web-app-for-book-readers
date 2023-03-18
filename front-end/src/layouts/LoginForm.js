@@ -9,10 +9,19 @@ const LoginForm = () => {
 
    const handleSubmit = (event) => {
       event.preventDefault();
-      login(form.username, form.password).then((token) => {
-         localStorage.setItem('token', token);
-         navigate('/home');
-      });
+      login(form.username, form.password)
+         .then((token) => {
+            localStorage.setItem('token', token);
+            navigate('/home');
+         })
+         .catch((error) => {
+            if (error.response.status === 401) {
+               setForm({
+                  ...form,
+                  error: 'Hibás felhasználónév és/vagy jelszó!'
+               });
+            }
+         });
    };
 
    return (
@@ -24,7 +33,11 @@ const LoginForm = () => {
                autoFocus
                placeholder="Felhasználónév"
                onChange={(event) =>
-                  setForm({ ...form, username: event.target.value })
+                  setForm({
+                     ...form,
+                     username: event.target.value,
+                     error: null
+                  })
                }
                value={form.username}
             />
@@ -32,7 +45,11 @@ const LoginForm = () => {
                type="password"
                placeholder="Jelszó"
                onChange={(event) =>
-                  setForm({ ...form, password: event.target.value })
+                  setForm({
+                     ...form,
+                     password: event.target.value,
+                     error: null
+                  })
                }
                value={form.password}
             />
