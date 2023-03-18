@@ -11,7 +11,7 @@
 
    .logo {
       font-size: 2rem;
-      color: var(--clr-primary-200);
+      color: var(--clr-neutral-100);
       text-decoration: none;
    }
 
@@ -20,14 +20,24 @@
       list-style: none;
 
       a {
+         display: inline-block;
          padding: 0.25rem 0.5rem;
          margin-left: 2rem;
          text-decoration: none;
-         color: var(--clr-primary-200);
+         color: var(--clr-neutral-100);
 
-         &:hover,
-         &:focus {
-            text-decoration: underline;
+         &:after {
+            content: '';
+            width: 0px;
+            height: 1px;
+            display: block;
+            background: var(--clr-neutral-100);
+            transition: 200ms;
+         }
+
+         &:hover:after,
+         &:focus:after {
+            width: 100%;
          }
       }
    }
