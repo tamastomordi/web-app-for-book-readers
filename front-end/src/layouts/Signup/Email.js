@@ -16,14 +16,14 @@ const Email = () => {
       if (emailIsValid) {
          checkIfEmailExists(form.email).then((exists) => {
             if (exists) {
-               setForm({ ...form, error: 'Már létező e-mail cím' });
+               setForm({ ...form, error: 'Már létező e-mail cím!' });
             } else {
                setForm({ ...form, error: null });
                setFormStep('username');
             }
          });
       } else {
-         setForm({ ...form, error: 'Érvénytelen e-mail cím' });
+         setForm({ ...form, error: 'Érvénytelen e-mail cím!' });
       }
    };
 
@@ -38,7 +38,7 @@ const Email = () => {
          setForm({
             ...form,
             email: event.target.value,
-            error: 'Érvénytelen e-mail cím'
+            error: 'Érvénytelen e-mail cím!'
          });
       }
    };
@@ -53,7 +53,7 @@ const Email = () => {
                onChange={handleChange}
                value={form.email}
             />
-            <p>{form.error}</p>
+            <p className="error">{form.error}</p>
             <button type="submit">Tovább</button>
          </form>
       </div>

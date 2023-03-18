@@ -1,0 +1,15 @@
+.NoPage {
+   text-align: center;
+
+   .code {
+      font-size: 13rem;
+      font-weight: bold;
+      margin-top: -3rem;
+      color: var(--clr-primary-600);
+   }
+
+   .description {
+      font-size: 1.25rem;
+      margin-top: -1rem;
+   }
+}

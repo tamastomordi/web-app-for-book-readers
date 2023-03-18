@@ -13,7 +13,7 @@ const Username = () => {
       event.preventDefault();
       checkIfUsernameExists(form.username).then((exists) => {
          if (exists) {
-            setForm({ ...form, error: 'Már létező felhasználónév' });
+            setForm({ ...form, error: 'Már létező felhasználónév!' });
          } else {
             setFormStep('password');
          }
@@ -36,7 +36,7 @@ const Username = () => {
                }
                value={form.username}
             />
-            {form.error}
+            <p className="error">{form.error}</p>
             <button type="submit">Tovább</button>
             <button onClick={() => setFormStep('email')}>Vissza</button>
          </form>

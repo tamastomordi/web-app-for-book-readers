@@ -29,7 +29,7 @@ const Password = () => {
          setForm({
             ...form,
             password1: event.target.value,
-            error: 'A két jelszó nem egyezik'
+            error: 'A két jelszó nem egyezik!'
          });
       }
    };
@@ -45,7 +45,7 @@ const Password = () => {
          setForm({
             ...form,
             password2: event.target.value,
-            error: 'A két jelszó nem egyezik'
+            error: 'A két jelszó nem egyezik!'
          });
       }
    };
@@ -66,7 +66,7 @@ const Password = () => {
                onChange={handleOnChangePassword2}
                value={form.password2}
             />
-            <p>{form.error}</p>
+            <p className="error">{form.error}</p>
             <button type="submit">Regisztráció</button>
             <button onClick={() => setFormStep('username')}>Vissza</button>
          </form>

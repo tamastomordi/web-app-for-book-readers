@@ -9,7 +9,8 @@ const SignupForm = () => {
    const formStep = useRecoilValue(signupFormStepState);
 
    return (
-      <div className="SignupForm">
+      <div className="SignupForm card">
+         <h2>Regisztráció</h2>
          {formStep === 'email' ? (
             <Email />
          ) : formStep === 'username' ? (

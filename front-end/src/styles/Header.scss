@@ -1,4 +1,34 @@
 .Header {
    background: var(--clr-primary-600);
    color: var(--clr-primary-200);
+   padding: 0.5rem 1rem;
+
+   .flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+   }
+
+   .logo {
+      font-size: 2rem;
+      color: var(--clr-primary-200);
+      text-decoration: none;
+   }
+
+   ul {
+      display: flex;
+      list-style: none;
+
+      a {
+         padding: 0.25rem 0.5rem;
+         margin-left: 2rem;
+         text-decoration: none;
+         color: var(--clr-primary-200);
+
+         &:hover,
+         &:focus {
+            text-decoration: underline;
+         }
+      }
+   }
 }
