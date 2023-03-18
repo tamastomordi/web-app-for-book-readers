@@ -10,7 +10,6 @@ const Success = () => {
          <p>Most már bejelentkezhetsz...</p>
          <p>felhasználóneved: {form.username}</p>
          <p>e-mail címed: {form.email}</p>
-         <p>jelszó: {form.password}</p>
       </div>
    );
 };

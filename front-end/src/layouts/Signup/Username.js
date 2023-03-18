@@ -3,6 +3,7 @@ import {
    signupFormInputsState,
    signupFormStepState
 } from '../../recoil/atoms/SignupForm';
+import { checkIfUsernameExists } from '../../api/auth';
 
 const Username = () => {
    const [form, setForm] = useRecoilState(signupFormInputsState);
@@ -10,7 +11,13 @@ const Username = () => {
 
    const handleSubmit = (event) => {
       event.preventDefault();
-      setFormStep('password');
+      checkIfUsernameExists(form.username).then((exists) => {
+         if (exists) {
+            setForm({ ...form, error: 'Már létező felhasználónév' });
+         } else {
+            setFormStep('password');
+         }
+      });
    };
 
    return (
@@ -23,11 +30,13 @@ const Username = () => {
                onChange={(event) =>
                   setForm({
                      ...form,
-                     username: event.target.value
+                     username: event.target.value,
+                     error: null
                   })
                }
                value={form.username}
             />
+            {form.error}
             <button type="submit">Tovább</button>
             <button onClick={() => setFormStep('email')}>Vissza</button>
          </form>

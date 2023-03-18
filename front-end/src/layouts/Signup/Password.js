@@ -1,4 +1,5 @@
 import { useRecoilState } from 'recoil';
+import { signup } from '../../api/auth';
 import {
    signupFormInputsState,
    signupFormStepState
@@ -10,7 +11,43 @@ const Password = () => {
 
    const handleSubmit = (event) => {
       event.preventDefault();
-      setFormStep('success');
+      if (form.password1 === form.password2) {
+         signup(form.email, form.usernamem, form.password1).then(() => {
+            setFormStep('success');
+         });
+      }
+   };
+
+   const handleOnChangePassword1 = (event) => {
+      if (event.target.value === form.password2) {
+         setForm({
+            ...form,
+            password1: event.target.value,
+            error: null
+         });
+      } else {
+         setForm({
+            ...form,
+            password1: event.target.value,
+            error: 'A két jelszó nem egyezik'
+         });
+      }
+   };
+
+   const handleOnChangePassword2 = (event) => {
+      if (form.password1 === event.target.value) {
+         setForm({
+            ...form,
+            password2: event.target.value,
+            error: null
+         });
+      } else {
+         setForm({
+            ...form,
+            password2: event.target.value,
+            error: 'A két jelszó nem egyezik'
+         });
+      }
    };
 
    return (
@@ -20,14 +57,16 @@ const Password = () => {
                type="password"
                autoFocus
                placeholder="Adj meg egy jelszót!"
-               onChange={(event) =>
-                  setForm({
-                     ...form,
-                     password: event.target.value
-                  })
-               }
-               value={form.password}
+               onChange={handleOnChangePassword1}
+               value={form.password1}
             />
+            <input
+               type="password"
+               placeholder="Jelszó megerősítése"
+               onChange={handleOnChangePassword2}
+               value={form.password2}
+            />
+            <p>{form.error}</p>
             <button type="submit">Regisztráció</button>
             <button onClick={() => setFormStep('username')}>Vissza</button>
          </form>

@@ -4,6 +4,7 @@ import {
    signupFormStepState
 } from '../../recoil/atoms/SignupForm';
 import { validateEmail } from '../../recoil/selectors/SignupForm';
+import { checkIfEmailExists } from '../../api/auth';
 
 const Email = () => {
    const [form, setForm] = useRecoilState(signupFormInputsState);
@@ -13,7 +14,14 @@ const Email = () => {
    const handleSubmit = (event) => {
       event.preventDefault();
       if (emailIsValid) {
-         setFormStep('username');
+         checkIfEmailExists(form.email).then((exists) => {
+            if (exists) {
+               setForm({ ...form, error: 'Már létező e-mail cím' });
+            } else {
+               setForm({ ...form, error: null });
+               setFormStep('username');
+            }
+         });
       } else {
          setForm({ ...form, error: 'Érvénytelen e-mail cím' });
       }
@@ -23,7 +31,8 @@ const Email = () => {
       if (emailIsValid) {
          setForm({
             ...form,
-            email: event.target.value
+            email: event.target.value,
+            error: null
          });
       } else {
          setForm({
@@ -44,7 +53,7 @@ const Email = () => {
                onChange={handleChange}
                value={form.email}
             />
-            {emailIsValid ? null : <p>{form.error}</p>}
+            <p>{form.error}</p>
             <button type="submit">Tovább</button>
          </form>
       </div>

@@ -5,7 +5,8 @@ export const signupFormInputsState = atom({
    default: {
       email: '',
       username: '',
-      password: '',
+      password1: '',
+      password2: '',
       error: null
    }
 });

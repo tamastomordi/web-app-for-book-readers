@@ -10,17 +10,3 @@ export const validateEmail = selector({
       return regex.test(form.email);
    }
 });
-
-export const validateUsername = selector({
-   key: 'validateUsername',
-   get: ({ get }) => {
-      return true;
-   }
-});
-
-export const validatePassword = selector({
-   key: 'validatePassword',
-   get: ({ get }) => {
-      return true;
-   }
-});
