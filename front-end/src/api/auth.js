@@ -30,3 +30,14 @@ export const signup = async (email, username, password) => {
       });
    return response.data.message;
 };
+
+export const login = async (username, password) => {
+   const response = await axios
+      .get('/auth/login', {
+         auth: { username: username, password: password }
+      })
+      .catch((error) => {
+         console.log(error);
+      });
+   return response.data.token;
+};

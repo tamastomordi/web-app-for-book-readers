@@ -12,10 +12,10 @@ const Header = () => {
                <nav>
                   <ul>
                      <li>
-                        <Link to="/login">Bejelentkezés</Link>
+                        <Link to="/auth/login">Bejelentkezés</Link>
                      </li>
                      <li>
-                        <Link to="/signup">Regisztráció</Link>
+                        <Link to="/auth/signup">Regisztráció</Link>
                      </li>
                   </ul>
                </nav>
