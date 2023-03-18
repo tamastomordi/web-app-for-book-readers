@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import NoPage from './pages/NoPage';
 import './styles/_reset.scss';
 import './styles/_global.scss';
+import './styles/App.scss';
 
 const App = () => {
    return (
