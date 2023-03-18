@@ -12,7 +12,7 @@ const Password = () => {
    const handleSubmit = (event) => {
       event.preventDefault();
       if (form.password1 === form.password2) {
-         signup(form.email, form.usernamem, form.password1).then(() => {
+         signup(form.email, form.username, form.password1).then(() => {
             setFormStep('success');
          });
       }
