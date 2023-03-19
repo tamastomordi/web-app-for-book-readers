@@ -1,4 +1,4 @@
-import '../styles/NoPage.scss';
+import '../styles/pages/NoPage.scss';
 
 const NoPage = () => {
    return (

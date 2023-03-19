@@ -37,8 +37,15 @@ const Username = () => {
                value={form.username}
             />
             <p className="error">{form.error}</p>
-            <button type="submit">Tovább</button>
-            <button onClick={() => setFormStep('email')}>Vissza</button>
+            <button className="button" type="submit">
+               Tovább
+            </button>
+            <button
+               className="button -secondary"
+               onClick={() => setFormStep('email')}
+            >
+               Vissza
+            </button>
          </form>
       </div>
    );

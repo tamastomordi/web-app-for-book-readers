@@ -26,9 +26,9 @@ class Signup(Resource):
 
 class Login(Resource):
    
-   def get(self):
+   def post(self):
       auth = request.authorization
-   
+
       if not auth or not auth.username or not auth.password:
          return 'Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'}
 
@@ -38,7 +38,9 @@ class Login(Resource):
          return 'Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'}
 
       if check_password_hash(user.password_hash, auth.password):
-         token = jwt.encode({'user_id': user.user_id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, current_app.config['SECRET_KEY'])
-         return {'token': token}
-      
+         date = datetime.datetime.utcnow() + datetime.timedelta(minutes=30);
+         token = jwt.encode({'user_id': user.user_id, 'exp': date}, current_app.config['SECRET_KEY'])
+         header = {'Set-Cookie': 'token='+token+'; HttpOnly; Expires='+str(date)}
+         return {'message': 'Login successful'}, 200, header
+
       return 'Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'}

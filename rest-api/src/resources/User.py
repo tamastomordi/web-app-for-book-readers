@@ -6,7 +6,7 @@ from ..models.UserModel import UserModel
 from ..schemas.UserSchema import user_schema, users_schema
 from ..common.auth import token_required
 
-class User(Resource):
+class UserById(Resource):
 
    def get(self, user_id):
       user = UserModel.query.filter_by(user_id=user_id).first()
@@ -36,7 +36,7 @@ class UserByUsername(Resource):
 
 class UserList(Resource):
 
-   #@token_required
+   @token_required
    def get(self):
       users = UserModel.query.all()
       result = users_schema.dump(users)

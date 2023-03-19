@@ -8,8 +8,8 @@ def token_required(f):
    @wraps(f)
    def decorated(*args, **kwargs):
       token = None
-      if 'x-access-token' in request.headers:
-         token = request.headers['x-access-token']
+      if 'token' in request.cookies:
+         token = request.cookies['token']
       if not token:
          return {'message': 'Token is missing!'}, 401
       try:

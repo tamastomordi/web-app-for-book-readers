@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
-import '../styles/Header.scss';
+import { ImBooks } from 'react-icons/im';
+import '../styles/layouts/Header.scss';
 
 const Header = () => {
    return (
@@ -7,7 +8,8 @@ const Header = () => {
          <div className="container">
             <div className="flex">
                <Link className="logo" to="/home">
-                  Könyvek.
+                  <ImBooks className="icon" />
+                  <p>Könyvek.</p>
                </Link>
                <nav>
                   <ul>

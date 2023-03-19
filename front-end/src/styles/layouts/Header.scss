@@ -11,8 +11,20 @@
 
    .logo {
       font-size: 2rem;
-      color: var(--clr-neutral-100);
       text-decoration: none;
+      display: flex;
+      align-items: center;
+
+      p {
+         color: var(--clr-neutral-100);
+         font-weight: bold;
+      }
+
+      .icon {
+         color: var(--clr-neutral-100);
+         font-size: 2.2rem;
+         margin-right: 0.5rem;
+      }
    }
 
    ul {

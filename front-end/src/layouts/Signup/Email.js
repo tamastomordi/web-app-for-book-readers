@@ -54,7 +54,9 @@ const Email = () => {
                value={form.email}
             />
             <p className="error">{form.error}</p>
-            <button type="submit">Tovább</button>
+            <button className="button" type="submit">
+               Tovább
+            </button>
          </form>
       </div>
    );

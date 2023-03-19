@@ -10,11 +10,12 @@ const LoginForm = () => {
    const handleSubmit = (event) => {
       event.preventDefault();
       login(form.username, form.password)
-         .then((token) => {
-            localStorage.setItem('token', token);
+         .then((message) => {
+            console.log(message);
             navigate('/home');
          })
          .catch((error) => {
+            console.log(error);
             if (error.response.status === 401) {
                setForm({
                   ...form,
@@ -54,7 +55,9 @@ const LoginForm = () => {
                value={form.password}
             />
             <p className="error">{form.error}</p>
-            <button type="submit">Bejelentkezés</button>
+            <button className="button" type="submit">
+               Bejelentkezés
+            </button>
          </form>
       </div>
    );

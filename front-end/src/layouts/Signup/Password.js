@@ -67,8 +67,15 @@ const Password = () => {
                value={form.password2}
             />
             <p className="error">{form.error}</p>
-            <button type="submit">Regisztráció</button>
-            <button onClick={() => setFormStep('username')}>Vissza</button>
+            <button className="button" type="submit">
+               Regisztráció
+            </button>
+            <button
+               className="button -secondary"
+               onClick={() => setFormStep('username')}
+            >
+               Vissza
+            </button>
          </form>
       </div>
    );

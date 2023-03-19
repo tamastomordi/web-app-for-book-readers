@@ -1,0 +1,25 @@
+.button {
+   background-color: var(--clr-neutral-600);
+   color: var(--clr-neutral-100);
+   border: none;
+   border-radius: 0.25rem;
+   padding: 0.4rem;
+   width: 100%;
+   margin: 0.25rem 0;
+   transition: background-color 200ms;
+
+   &:hover,
+   &:focus {
+      background-color: var(--clr-neutral-700);
+      cursor: pointer;
+   }
+
+   /*&.-secondary {
+      background-color: var(--clr-neutral-300);
+
+      &:hover,
+      &:focus {
+         background-color: var(--clr-neutral-400);
+      }
+   }*/
+}
