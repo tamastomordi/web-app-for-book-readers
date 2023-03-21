@@ -3,9 +3,10 @@ from flask_restful import Resource, reqparse
 from werkzeug.security import generate_password_hash, check_password_hash
 import jwt
 import datetime
-
+from ..common.auth import token_required
 from ..common.extensions import api, db
 from ..models.UserModel import UserModel
+from ..schemas.UserSchema import user_schema
 
 class Signup(Resource):
 
@@ -30,17 +31,24 @@ class Login(Resource):
       auth = request.authorization
 
       if not auth or not auth.username or not auth.password:
-         return 'Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'}
+         return 'Could not verify', 401
 
       user = UserModel.query.filter_by(username=auth.username).first()
 
       if not user:
-         return 'Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'}
+         return 'Could not verify', 401
 
       if check_password_hash(user.password_hash, auth.password):
          date = datetime.datetime.utcnow() + datetime.timedelta(minutes=30);
          token = jwt.encode({'user_id': user.user_id, 'exp': date}, current_app.config['SECRET_KEY'])
-         header = {'Set-Cookie': 'token='+token+'; HttpOnly; Expires='+str(date)}
-         return {'message': 'Login successful'}, 200, header
+         header = {'Set-Cookie': 'token='+token+'; HttpOnly; Expires='+str(date)+'; Path=/'}
+         user = user_schema.dump(user)
+         return {'user': user}, 200, header
 
-      return 'Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'}
+      return 'Could not verify', 401
+
+class Me(Resource):
+   @token_required
+   def get(current_user, self):
+      result = user_schema.dump(current_user)
+      return {'user': result}, 200
