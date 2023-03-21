@@ -1,18 +1,26 @@
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useResetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import { loginFormInputsState } from '../recoil/atoms/LoginForm';
+import { authState } from '../recoil/atoms/Auth';
 import { login } from '../api/auth';
+import { useEffect } from 'react';
 
 const LoginForm = () => {
    const [form, setForm] = useRecoilState(loginFormInputsState);
+   const [auth, setAuth] = useRecoilState(authState);
+   const resetForm = useResetRecoilState(loginFormInputsState);
    const navigate = useNavigate();
+
+   useEffect(() => {
+      return resetForm;
+   }, []);
 
    const handleSubmit = (event) => {
       event.preventDefault();
       login(form.username, form.password)
-         .then((message) => {
-            console.log(message);
-            navigate('/home');
+         .then((user) => {
+            setAuth({ user: user });
+            navigate('/dashboard');
          })
          .catch((error) => {
             console.log(error);
