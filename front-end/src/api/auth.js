@@ -42,5 +42,10 @@ export const login = async (username, password) => {
          auth: { username: username, password: password }
       }
    );
-   return response.data.message;
+   return response.data.user;
+};
+
+export const me = async () => {
+   const response = await axios.get('/auth/me');
+   return response.data.user;
 };
