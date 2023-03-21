@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 from flask import Flask
 
 from .common.extensions import api, db, ma, cors
-from .resources.Auth import Login, Signup
+from .resources.Auth import Login, Signup, Me
 from .resources.User import UserById, UserList, UserByUsername, UserByEmail
 from .resources.Book import Book, BookList
 from .resources.Author import Author, AuthorList
@@ -18,6 +18,7 @@ def create_app():
 
    api.add_resource(Login, "/auth/login")
    api.add_resource(Signup, "/auth/signup")
+   api.add_resource(Me, '/auth/me')
 
    api.add_resource(UserList, "/users")
    api.add_resource(UserById, "/users/<user_id>")

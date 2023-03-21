@@ -33,11 +33,10 @@ class UserByUsername(Resource):
       result = user_schema.dump(user)
       return {'user': result}, 200
 
-
 class UserList(Resource):
 
    @token_required
-   def get(self):
+   def get(current_user, self):
       users = UserModel.query.all()
       result = users_schema.dump(users)
       return {'users': result}, 200
