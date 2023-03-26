@@ -1,22 +1,21 @@
 import { useEffect } from 'react';
-import { Routes, Route, Navigate, useNavigate, Stack } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import Header from './layouts/Header';
 import Home from './pages/Home';
 import NoPage from './pages/NoPage';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
+import Book from './pages/Book';
 import { authState } from './recoil/atoms/Auth';
 import { me } from './api/auth';
 import './styles/_reset.scss';
 import './styles/_global.scss';
 import './styles/App.scss';
-import ProtectedRoute from './layouts/ProtectedRoute';
+import RedirectRoute from './layouts/RedirectRoute';
 
 const App = () => {
    const [auth, setAuth] = useRecoilState(authState);
-   const navigate = useNavigate();
 
    useEffect(() => {
       me()
@@ -30,32 +29,48 @@ const App = () => {
 
    return (
       <div className="App">
-         <Header />
          <Routes>
             <Route
                path="/"
                element={
-                  auth.user ? (
+                  <RedirectRoute condition={auth.user} to="/home">
                      <Navigate to="/dashboard" />
-                  ) : (
-                     <Navigate to="/home" />
-                  )
+                  </RedirectRoute>
                }
             />
             <Route
                path="/home"
-               element={auth.user ? <Navigate to="/dashboard" /> : <Home />}
+               element={
+                  <RedirectRoute condition={!auth.user} to="/dashboard">
+                     <Home />
+                  </RedirectRoute>
+               }
             />
             <Route
                path="/dashboard"
                element={
-                  <ProtectedRoute loggedIn={auth.user}>
+                  <RedirectRoute condition={auth.user} to="/home">
                      <Dashboard />
-                  </ProtectedRoute>
+                  </RedirectRoute>
                }
             />
-            <Route path="/auth/signup" element={<Signup />} />
-            <Route path="/auth/login" element={<Login />} />
+            <Route
+               path="/auth/signup"
+               element={
+                  <RedirectRoute condition={!auth.user} to="/dashboard">
+                     <Signup />
+                  </RedirectRoute>
+               }
+            />
+            <Route
+               path="/auth/login"
+               element={
+                  <RedirectRoute condition={!auth.user} to="/dashboard">
+                     <Login />
+                  </RedirectRoute>
+               }
+            />
+            <Route path="/book/:bookId" element={<Book />} />
             <Route path="*" element={<NoPage />} />
          </Routes>
       </div>
