@@ -1,19 +1,21 @@
 from flask_restful import Resource, reqparse
-
 from ..common.extensions import db
-
 from ..models.AuthorModel import AuthorModel
 from ..schemas.AuthorSchema import author_schema, authors_schema
 
-class Author(Resource):
-   
+class GetAuthor(Resource):
    def get(self, author_id):
       author = AuthorModel.query.filter_by(author_id=author_id).first()
       result = author_schema.dump(author)
       return {'author': result}, 200
 
-class AuthorList(Resource):
+class GetAuthors(Resource):
+   def get(self):
+      authors = AuthorModel.query.all()
+      results = authors_schema.dump(authors)
+      return {'authors': results}, 200  
 
+class AddAuthor(Resource):
    def __init__(self):
       self.reqparse = reqparse.RequestParser()
       self.reqparse.add_argument('name')
@@ -21,12 +23,7 @@ class AuthorList(Resource):
       self.reqparse.add_argument('birth_date')
       self.reqparse.add_argument('death_date')
       self.reqparse.add_argument('author_img_path')
-      super(AuthorList, self).__init__()
-
-   def get(self):
-      authors = AuthorModel.query.all()
-      results = authors_schema.dump(authors)
-      return {'authors': results}, 200
+      super(AddAuthor, self).__init__()
 
    def post(self):
       args = self.reqparse.parse_args()

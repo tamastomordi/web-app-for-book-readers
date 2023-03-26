@@ -9,7 +9,6 @@ from ..models.UserModel import UserModel
 from ..schemas.UserSchema import user_schema
 
 class Signup(Resource):
-
    def __init__(self):
       self.reqparse = reqparse.RequestParser()
       self.reqparse.add_argument('username')
@@ -26,25 +25,19 @@ class Signup(Resource):
       return {'message': 'User successfully created'}, 201
 
 class Login(Resource):
-   
    def post(self):
       auth = request.authorization
-
       if not auth or not auth.username or not auth.password:
          return 'Could not verify', 401
-
       user = UserModel.query.filter_by(username=auth.username).first()
-
       if not user:
          return 'Could not verify', 401
-
       if check_password_hash(user.password_hash, auth.password):
          date = datetime.datetime.utcnow() + datetime.timedelta(minutes=30);
          token = jwt.encode({'user_id': user.user_id, 'exp': date}, current_app.config['SECRET_KEY'])
          header = {'Set-Cookie': 'token='+token+'; HttpOnly; Expires='+str(date)+'; Path=/'}
          user = user_schema.dump(user)
          return {'user': user}, 200, header
-
       return 'Could not verify', 401
 
 class Me(Resource):

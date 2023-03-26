@@ -1,19 +1,15 @@
 from flask_restful import Resource, reqparse
-
 from ..common.extensions import db
-
 from ..models.FriendshipModel import FriendshipModel
 from ..schemas.FriendshipSchema import friendship_schema, friendships_schema
 
-class Friendship(Resource):
-
+class GetFriendship(Resource):
    def get(self, friendship_id):
       friendship = FriendshipModel.query.filter_by(friendship_id=friendship_id).first()
       result = friendship_schema.dump(friendship)
       return {'friendship': result}, 200
 
 class RequestFriendship(Resource):
-
    def __init__(self):
       self.reqparse = reqparse.RequestParser()
       self.reqparse.add_argument('user_id_1')
@@ -28,7 +24,6 @@ class RequestFriendship(Resource):
       return {'message': 'Friendship successfully created'}, 201
 
 class ConfirmFriendship(Resource):
-   
    def __init__(self):
       self.reqparse = reqparse.RequestParser()
       self.reqparse.add_argument('user_id_1')

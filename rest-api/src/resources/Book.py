@@ -1,20 +1,30 @@
+from flask import send_file
 from flask_restful import Resource, reqparse
-
+import werkzeug
 from ..common.extensions import db
-
 from ..models.BookModel import BookModel
 from ..models.AuthorModel import AuthorModel
+from ..models.LikeModel import LikeModel
+from ..schemas.AuthorSchema import authors_schema
 from ..schemas.BookSchema import book_schema, books_schema
+from ..common.auth import token_required
+from ..common.allowed_file import allowed_file, get_extension
 
-class Book(Resource):
+class GetBooks(Resource):
+   def get(self):
+      books = BookModel.query.all()
+      results = books_schema.dump(books)
+      return {'books': results}, 200
 
-   def get(self, book_id):
+class GetBookById(Resource):
+   @token_required
+   def get(current_user, self, book_id):
       book = BookModel.query.filter_by(book_id=book_id).first()
       result = book_schema.dump(book)
-      return {'book': result}, 200
+      authors = authors_schema.dump(book.authors)
+      return {'book': result, 'authors': authors}, 200
 
-class BookList(Resource):
-
+class AddBook(Resource):
    def __init__(self):
       self.reqparse = reqparse.RequestParser()
       self.reqparse.add_argument('title')
@@ -24,18 +34,51 @@ class BookList(Resource):
       self.reqparse.add_argument('published')
       self.reqparse.add_argument('approved', type=bool)
       self.reqparse.add_argument('authors', action='append')
-      super(BookList, self).__init__()
-
-   def get(self):
-      books = BookModel.query.all()
-      results = books_schema.dump(books)
-      return {'books': results}, 200
+      super(AddBook, self).__init__()
 
    def post(self):
+         args = self.reqparse.parse_args()
+         new_book = BookModel(title=args['title'], subtitle=args['subtitle'], cover_img_path=args['cover_img_path'], description=args['description'], published=args['published'], approved=args['approved'])
+         for author_id in args['authors']:
+            new_book.authors.append(AuthorModel.query.filter_by(author_id=author_id).first())
+         db.session.add(new_book)
+         db.session.commit()
+         return {'message': 'Book successfully created'}, 201
+
+class GetCoverImg(Resource):
+   def get(self, book_id):
+      FOLDER = 'img/book_covers/'
+      book = BookModel.query.filter_by(book_id=book_id).first()
+      if book and book.cover_img:
+         return send_file(FOLDER + book.cover_img)
+      return {'error': 'Unsuccessful img get'}, 400 
+
+class UploadCoverImg(Resource):
+   def __init__(self):
+      self.reqparse = reqparse.RequestParser()
+      self.reqparse.add_argument('cover_img', type=werkzeug.datastructures.FileStorage, location='files')
+      self.reqparse.add_argument('book_id', location='form')
+
+   def post(self):
+      FOLDER = './src/img/book_covers'
       args = self.reqparse.parse_args()
-      new_book = BookModel(title=args['title'], subtitle=args['subtitle'], cover_img_path=args['cover_img_path'], description=args['description'], published=args['published'], approved=args['approved'])
-      for author_id in args['authors']:
-         new_book.authors.append(AuthorModel.query.filter_by(author_id=author_id).first())
-      db.session.add(new_book)
-      db.session.commit()
-      return {'message': 'Book successfully created'}, 201
+      cover_img = args['cover_img']
+      book = BookModel.query.filter_by(book_id=args['book_id']).first()
+      if book and cover_img and allowed_file(cover_img.filename):
+         path = FOLDER+'/'+args['book_id']+'.'+get_extension(cover_img.filename)
+         cover_img.save(path)
+         book.cover_img = args['book_id']+'.'+get_extension(cover_img.filename)
+         db.session.add(book)
+         db.session.commit()
+         return {'message': 'Cover img successfully added'}, 201
+      return {'error': 'Unsuccessful img upload'}, 400
+
+class GetBooksLikedByUser(Resource):
+   def get(self, user_id):
+      likes = LikeModel.query.filter_by(user_id=user_id)
+      books = []
+      for like in likes:
+         book = BookModel.query.filter_by(book_id=like.book_id).first()
+         books.append(book)
+      results = books_schema.dump(books)
+      return {'books': results}, 200

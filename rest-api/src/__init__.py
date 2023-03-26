@@ -1,13 +1,16 @@
 import os
 from dotenv import load_dotenv
 from flask import Flask
-
 from .common.extensions import api, db, ma, cors
+
 from .resources.Auth import Login, Signup, Me
-from .resources.User import UserById, UserList, UserByUsername, UserByEmail
-from .resources.Book import Book, BookList
-from .resources.Author import Author, AuthorList
-from .resources.Friendship import Friendship, RequestFriendship, ConfirmFriendship
+from .resources.User import GetUsers, GetUserById, GetUserByUsername, GetUserByEmail
+from .resources.Book import GetBooks, GetBookById, GetCoverImg, UploadCoverImg, GetBooksLikedByUser
+from .resources.Author import GetAuthors, GetAuthor
+from .resources.Friendship import GetFriendship, RequestFriendship, ConfirmFriendship
+from .resources.Review import GetReviews, GetReview, GetReviewsByBookId, GetReviewsByUserId, AddReview
+from .resources.Reading import GetReadings, GetReading, GetReadingsByUserId, GetReadingsByBookId, AddReading
+from .resources.Like import Like, Dislike, GetNumberOfLikes
 
 load_dotenv()
 
@@ -20,20 +23,39 @@ def create_app():
    api.add_resource(Signup, "/auth/signup")
    api.add_resource(Me, '/auth/me')
 
-   api.add_resource(UserList, "/users")
-   api.add_resource(UserById, "/users/<user_id>")
-   api.add_resource(UserByUsername, "/user/byusername/<username>")
-   api.add_resource(UserByEmail, "/user/byemail/<email>")
+   api.add_resource(GetUsers, "/get/users")
+   api.add_resource(GetUserById, "/get/user/<user_id>")
+   api.add_resource(GetUserByUsername, "/get/user/username/<username>")
+   api.add_resource(GetUserByEmail, "/get/user/email/<email>")
 
-   api.add_resource(BookList, "/books")
-   api.add_resource(Book, "/books/<book_id>")
+   api.add_resource(GetBooks, "/get/books")
+   api.add_resource(GetBookById, "/get/book/<book_id>")
+   api.add_resource(GetCoverImg, "/get/book/cover_img/<book_id>")
+   api.add_resource(UploadCoverImg, "/upload/book/cover_img")
+   api.add_resource(GetBooksLikedByUser, "/get/liked_books/<user_id>")
 
-   api.add_resource(AuthorList, "/authors")
-   api.add_resource(Author, "/authors/<author_id>")
-   
-   api.add_resource(Friendship, "/friendships/<friendship_id>")
-   api.add_resource(RequestFriendship, "/friendships/request")
-   api.add_resource(ConfirmFriendship, "/friendships/confirm")
+   api.add_resource(GetAuthors, "/get/authors")
+   api.add_resource(GetAuthor, "/get/author/<author_id>")
+
+   api.add_resource(GetReviews, "/get/reviews")
+   api.add_resource(GetReview, "/get/review/<review_id>")
+   api.add_resource(GetReviewsByBookId, "/get/reviews/book_id/<book_id>")
+   api.add_resource(GetReviewsByUserId, "/get/reviews/user_id/<user_id>")
+   api.add_resource(AddReview, "/add/review")
+
+   api.add_resource(GetReadings, "/get/readings")
+   api.add_resource(GetReading, "/get/reading/<reading_id>")
+   api.add_resource(GetReadingsByUserId, "/get/readings/user_id/<user_id>")
+   api.add_resource(GetReadingsByBookId, "/get/readings/book_id/<book_id>")
+   api.add_resource(AddReading, "/add/reading")
+
+   api.add_resource(Like, "/like")
+   api.add_resource(Dislike, "/dislike")
+   api.add_resource(GetNumberOfLikes, "/get/likes/<book_id>")
+
+   api.add_resource(GetFriendship, "/get/friendship/<friendship_id>")
+   api.add_resource(RequestFriendship, "/request/friendship")
+   api.add_resource(ConfirmFriendship, "/confirm/friendship")
 
    api.init_app(app)
    db.init_app(app)
