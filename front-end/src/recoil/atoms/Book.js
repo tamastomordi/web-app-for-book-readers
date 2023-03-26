@@ -14,3 +14,13 @@ export const coverImgState = atom({
    key: 'coverImgState',
    default: null
 });
+
+export const likedState = atom({
+   key: 'likedState',
+   default: false
+});
+
+export const numberOfLikesState = atom({
+   key: 'numberOfLikesState',
+   default: 0
+});
