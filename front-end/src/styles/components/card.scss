@@ -1,0 +1,32 @@
+.card {
+   background: var(--clr-neutral-100);
+   margin: 2rem auto;
+   padding: 4rem;
+   max-width: 35rem;
+   border-radius: 1rem 0rem;
+   box-shadow: 0 0 0.5rem var(--clr-neutral-200);
+
+   h2 {
+      margin: -1rem 0 1.5rem 0;
+   }
+
+   &.-wide {
+      max-width: 100%;
+      margin: 1rem;
+   }
+}
+
+.card-wide {
+   h1 {
+      letter-spacing: normal;
+      line-height: 2.25rem;
+      max-width: 25ch;
+      margin-bottom: 1rem;
+   }
+
+   p {
+      font-size: 1rem;
+      line-height: 1.25rem;
+      max-width: 70ch;
+   }
+}

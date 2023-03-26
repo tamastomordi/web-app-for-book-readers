@@ -1,0 +1,57 @@
+.IconButton {
+   border-radius: 1rem;
+   padding: 0.5rem 1rem;
+   border: none;
+   cursor: pointer;
+   color: var(--clr-neutral-100);
+   background-color: var(--clr-neutral-600);
+   transition: background-color 400ms;
+   display: inline-block;
+
+   .content {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+      align-items: center;
+   }
+
+   .icon {
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+   }
+
+   &.like {
+      &:hover {
+         background-color: var(--clr-error);
+      }
+
+      &:focus {
+         outline-offset: 3px;
+         outline-color: var(--clr-error);
+      }
+   }
+
+   &.read {
+      &:hover {
+         background-color: var(--clr-primary-600);
+      }
+
+      &:focus {
+         outline-offset: 3px;
+         outline-color: var(--clr-primary-600);
+      }
+   }
+
+   &.rate {
+      &:hover {
+         background-color: orange;
+      }
+
+      &:focus {
+         outline-offset: 3px;
+         outline-color: orange;
+      }
+   }
+}

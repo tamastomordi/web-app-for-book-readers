@@ -1,0 +1,25 @@
+.Dashboard {
+   color: var(--clr-neutral-700);
+
+   a {
+      display: inline-block;
+      color: var(--clr-primary-400);
+      text-decoration: none;
+      transition: 200ms;
+
+      &:after {
+         content: '';
+         width: 0px;
+         height: 3px;
+         margin-top: -0.5rem;
+         display: block;
+         background: var(--clr-primary-400);
+         transition: 200ms;
+      }
+
+      &:hover:after,
+      &:focus:after {
+         width: 100%;
+      }
+   }
+}

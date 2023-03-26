@@ -6,6 +6,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 @import './components/button';
+@import './components/card';
 
 :root {
    --clr-primary-600: rgb(142, 87, 66);
@@ -18,7 +19,7 @@
    --clr-neutral-500: rgb(70, 70, 70);
    --clr-neutral-400: rgb(90, 90, 90);
    --clr-neutral-300: rgb(110, 110, 110);
-   --clr-neutral-200: rgb(220, 220, 220);
+   --clr-neutral-200: rgb(234, 234, 234);
    --clr-neutral-100: rgb(255, 255, 255);
 
    --clr-focus: rgb(3, 119, 252);
@@ -30,39 +31,13 @@
    //color: var(--clr-neutral-600);
 }
 
+html {
+   background-color: var(--clr-primary-200);
+}
+
 .container {
    max-width: 1000px;
    margin: 0 auto;
-}
-
-.card {
-   background: var(--clr-neutral-100);
-   margin: 2rem auto;
-   padding: 4rem;
-   max-width: 35rem;
-   border-radius: 1rem 0rem;
-   box-shadow: 0 0 0.5rem var(--clr-neutral-200);
-
-   h2 {
-      margin: -1rem 0 1.5rem 0;
-   }
-}
-
-.card-wide {
-   max-width: 100%;
-
-   h1 {
-      letter-spacing: normal;
-      line-height: 2.25rem;
-      max-width: 25ch;
-      margin-bottom: 1rem;
-   }
-
-   p {
-      font-size: 1rem;
-      line-height: 1.25rem;
-      max-width: 70ch;
-   }
 }
 
 input {
