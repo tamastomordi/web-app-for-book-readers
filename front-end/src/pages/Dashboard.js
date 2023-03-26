@@ -1,19 +1,18 @@
-import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
-import { useNavigate } from 'react-router-dom';
 import { authState } from '../recoil/atoms/Auth';
-import { me } from '../api/auth';
 import Welcome from '../layouts/Welcome';
+import '../styles/pages/Dashboard.scss';
 
 const Dashboard = () => {
    const [auth, setAuth] = useRecoilState(authState);
-   const navigate = useNavigate();
-
-   if (!auth.user) return <div>Loading...</div>;
 
    return (
       <div className="Dashboard">
-         <Welcome username={auth.user.username} />
+         <div className="container">
+            <div className="card -wide">
+               <Welcome username={auth.user.username} />
+            </div>
+         </div>
       </div>
    );
 };
