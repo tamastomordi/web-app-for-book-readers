@@ -56,8 +56,8 @@ CREATE TABLE reading_(
 	reading_id_ SERIAL PRIMARY KEY,
 	user_id_ INT,
 	book_id_ INT,
-	start_date_ DATE,
-	end_date_ DATE,
+	start_ TIMESTAMP,
+	end_ TIMESTAMP,
 	CONSTRAINT fk_user_ FOREIGN KEY(user_id_) REFERENCES user_(user_id_),
 	CONSTRAINT fk_book_ FOREIGN KEY(book_id_) REFERENCES book_(book_id_)
 );
@@ -68,7 +68,7 @@ CREATE TABLE review_(
 	book_id_ INT,
 	rating_ INT,
 	review_text_ TEXT,
-	date_ DATE,
+	datetime_ TIMESTAMP,
 	CONSTRAINT fk_user_ FOREIGN KEY(user_id_) REFERENCES user_(user_id_),
 	CONSTRAINT fk_book_ FOREIGN KEY(book_id_) REFERENCES book_(book_id_)
 );
@@ -77,5 +77,12 @@ CREATE TABLE author_book_(
 	author_id_ INT,
 	book_id_ INT,
 	CONSTRAINT fk_author_ FOREIGN KEY(author_id_) REFERENCES author_(author_id_),
+	CONSTRAINT fk_book_ FOREIGN KEY(book_id_) REFERENCES book_(book_id_)
+);
+
+CREATE TABLE like_(
+	user_id_ INT,
+	book_id_ INT,
+	CONSTRAINT fk_user_ FOREIGN KEY(user_id_) REFERENCES user_(user_id_),
 	CONSTRAINT fk_book_ FOREIGN KEY(book_id_) REFERENCES book_(book_id_)
 );
