@@ -1,17 +1,19 @@
 import axios from './axios';
 
 export const checkIfEmailExists = async (email) => {
-   const response = await axios.get('/user/byemail/' + email).catch((error) => {
-      console.log(error);
-      return true;
-   });
+   const response = await axios
+      .get('/get/user/email/' + email)
+      .catch((error) => {
+         console.log(error);
+         return true;
+      });
    if (response.data.user.user_id) return true;
    return false;
 };
 
 export const checkIfUsernameExists = async (username) => {
    const response = await axios
-      .get('/user/byusername/' + username)
+      .get('/get/user/username/' + username)
       .catch((error) => {
          console.log(error);
          return true;
