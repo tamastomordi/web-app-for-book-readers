@@ -1,6 +1,6 @@
-import '../styles/components/Stamp.scss';
+import '../styles/components/Badge.scss';
 
-const Stamp = ({ icon, text, className }) => {
+const Badge = ({ icon, text, className }) => {
    return (
       <div className={'Stamp ' + className}>
          <div className="content">
@@ -11,4 +11,4 @@ const Stamp = ({ icon, text, className }) => {
    );
 };
 
-export default Stamp;
+export default Badge;
