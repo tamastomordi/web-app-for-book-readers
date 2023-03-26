@@ -10,7 +10,7 @@ from .resources.Author import GetAuthors, GetAuthor
 from .resources.Friendship import GetFriendship, RequestFriendship, ConfirmFriendship
 from .resources.Review import GetReviews, GetReview, GetReviewsByBookId, GetReviewsByUserId, AddReview
 from .resources.Reading import GetReadings, GetReading, GetReadingsByUserId, GetReadingsByBookId, AddReading
-from .resources.Like import Like, Dislike, GetNumberOfLikes
+from .resources.Like import Like, Dislike, GetNumberOfLikes, IsLiked
 
 load_dotenv()
 
@@ -50,7 +50,8 @@ def create_app():
    api.add_resource(AddReading, "/add/reading")
 
    api.add_resource(Like, "/like")
-   api.add_resource(Dislike, "/dislike")
+   api.add_resource(Dislike, "/dislike/<book_id>")
+   api.add_resource(IsLiked, "/isliked/<book_id>")
    api.add_resource(GetNumberOfLikes, "/get/likes/<book_id>")
 
    api.add_resource(GetFriendship, "/get/friendship/<friendship_id>")
