@@ -40,7 +40,8 @@ html {
    margin: 0 auto;
 }
 
-input {
+input,
+textarea {
    padding: 0.5rem 0.75rem;
    width: 100%;
    border: 1px solid var(--clr-neutral-600);
@@ -51,6 +52,11 @@ input {
       outline-color: var(--clr-focus);
       border-radius: 0.25rem;
    }
+}
+
+textarea {
+   resize: vertical;
+   max-height: 20rem;
 }
 
 button:first-of-type {
