@@ -15,13 +15,17 @@ import {
    authorsState,
    coverImgState,
    likedState,
-   numberOfLikesState
+   numberOfLikesState,
+   modalsState
 } from '../recoil/atoms/Book';
 import IconButton from '../components/IconButton';
 import '../styles/pages/Book.scss';
 import { FaHeart } from 'react-icons/fa';
 import { BsBookmarkPlusFill, BsStarFill } from 'react-icons/bs';
 import Badge from '../components/Badge';
+import ReviewModal from '../layouts/ReviewModal';
+import ReviewList from '../layouts/ReviewList';
+import { useNavigate } from 'react-router-dom';
 
 const Book = () => {
    const { bookId } = useParams();
@@ -30,6 +34,8 @@ const Book = () => {
    let [coverImg, setCoverImg] = useRecoilState(coverImgState);
    let [numberOfLikes, setNumberOfLikes] = useRecoilState(numberOfLikesState);
    let [liked, setLiked] = useRecoilState(likedState);
+   let [modals, setModals] = useRecoilState(modalsState);
+   let navigate = useNavigate();
 
    useEffect(() => {
       getBook(bookId)
@@ -37,55 +43,38 @@ const Book = () => {
             setBook(data.book);
             setAuthors(data.authors);
          })
-         .catch((error) => {
-            console.log(error);
-         });
+         .catch((error) => navigate('/home'));
       getCoverImg(bookId)
          .then((data) => {
             let coverImg = Buffer.from(data, 'binary').toString('base64');
             setCoverImg(coverImg);
          })
-         .catch((error) => {
-            console.log(error);
-         });
+         .catch((error) => console.log(error));
       isLiked(bookId)
-         .then((data) => {
-            setLiked(data.liked);
-         })
-         .catch((error) => {
-            console.log(error);
-         });
-   }, [bookId, setBook, setAuthors, setCoverImg, setLiked]);
+         .then((data) => setLiked(data.liked))
+         .catch((error) => console.log(error));
+   }, [bookId, setBook, setAuthors, setCoverImg, setLiked, navigate]);
 
    useEffect(() => {
       getNumberOfLikes(bookId)
-         .then((data) => {
-            setNumberOfLikes(data.numberOfLikes);
-         })
-         .catch((error) => {
-            console.log(error);
-         });
+         .then((data) => setNumberOfLikes(data.numberOfLikes))
+         .catch((error) => console.log(error));
    }, [bookId, setNumberOfLikes, liked]);
 
    const onClickLikeButton = () => {
       if (liked) {
          dislike(bookId)
-            .then((data) => {
-               setLiked(false);
-            })
-            .catch((error) => {
-               console.log(error);
-            });
+            .then((data) => setLiked(false))
+            .catch((error) => console.log(error));
       } else {
          like(bookId)
-            .then((data) => {
-               setLiked(true);
-            })
-            .catch((error) => {
-               console.log(error);
-            });
+            .then((data) => setLiked(true))
+            .catch((error) => console.log(error));
       }
    };
+
+   const onClickReviewButton = () =>
+      setModals({ ...modals, showReviewModal: true });
 
    if (!book) return <p>Loading...</p>;
 
@@ -94,14 +83,12 @@ const Book = () => {
          <div className="container">
             <div className="card -wide">
                <div className="flex">
-                  {coverImg ? (
+                  {coverImg && (
                      <img
                         className="cover-img"
                         alt="Borítókép"
                         src={`data:;base64,${coverImg}`}
                      />
-                  ) : (
-                     ''
                   )}
                   <div className="details">
                      <h2>
@@ -138,36 +125,22 @@ const Book = () => {
                            className="rate"
                            text="Értékelés"
                            icon={<BsStarFill />}
+                           onClick={onClickReviewButton}
                         ></IconButton>
                      </div>
                   </div>
                </div>
-               <div className="ratings">
-                  <h2>Értékelések</h2>
-                  <div className="rating">
-                     <p>
-                        <b>sad_snail</b> - 2023. január 15.
-                        <br />
-                        Ez az egyik kedvenc könyvem.
-                     </p>
-                  </div>
-                  <div className="rating">
-                     <p>
-                        <b>sad_snail</b> - 2023. január 15.
-                        <br />
-                        Ez az egyik kedvenc könyvem.
-                     </p>
-                  </div>
-                  <div className="rating">
-                     <p>
-                        <b>sad_snail</b> - 2023. január 15.
-                        <br />
-                        Ez az egyik kedvenc könyvem.
-                     </p>
-                  </div>
-               </div>
+               <ReviewList bookId={bookId} />
             </div>
          </div>
+         {modals.showReviewModal && (
+            <ReviewModal
+               bookId={bookId}
+               onClose={() => {
+                  setModals({ ...modals, showReviewModal: false });
+               }}
+            />
+         )}
       </div>
    );
 };

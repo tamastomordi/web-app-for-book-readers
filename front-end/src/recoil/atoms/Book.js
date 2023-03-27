@@ -24,3 +24,11 @@ export const numberOfLikesState = atom({
    key: 'numberOfLikesState',
    default: 0
 });
+
+export const modalsState = atom({
+   key: 'modalsState',
+   default: {
+      showReviewModal: false,
+      showReadingModal: false
+   }
+});
