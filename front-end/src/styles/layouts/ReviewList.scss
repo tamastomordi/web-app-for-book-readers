@@ -1,0 +1,40 @@
+.ReviewList {
+   margin-left: 3rem;
+
+   .review {
+      margin-bottom: 1.5rem;
+
+      .header {
+         display: flex;
+         align-items: center;
+         gap: 0.5rem;
+      }
+
+      img {
+         width: 2rem;
+      }
+
+      .username {
+         text-decoration: none;
+         color: var(--clr-primary-600);
+         font-weight: bold;
+      }
+
+      .datetime {
+         color: var(--clr-neutral-300);
+      }
+
+      .rating {
+         margin: 0;
+         margin-left: auto;
+
+         .checked {
+            color: orange !important;
+         }
+      }
+
+      .review-text {
+         margin-top: 0.5rem;
+      }
+   }
+}
