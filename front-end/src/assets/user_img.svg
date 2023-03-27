@@ -1,0 +1,5 @@
+<svg id="Component_1_1" data-name="Component 1 – 1" xmlns="http://www.w3.org/2000/svg" width="82" height="83" viewBox="0 0 82 83">
+  <circle id="Ellipse_2" data-name="Ellipse 2" cx="41" cy="41" r="41" fill="#2a2a2a"/>
+  <circle id="Ellipse_7" data-name="Ellipse 7" cx="13.5" cy="13.5" r="13.5" transform="translate(27.5 22)" fill="#fff"/>
+  <path id="Intersection_2" data-name="Intersection 2" d="M12.376,70.354A29.6,29.6,0,0,1,70.471,69.5a41,41,0,0,1-58.095.851Z" transform="translate(-0.424 1)" fill="#fff"/>
+</svg>
