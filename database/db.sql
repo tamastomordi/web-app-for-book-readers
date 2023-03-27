@@ -13,8 +13,8 @@ CREATE DATABASE web_app_for_book_readers
 	
 CREATE TABLE user_(
 	user_id_ SERIAL PRIMARY KEY,
-	username_ VARCHAR(50),
-	email_ VARCHAR(255),
+	username_ VARCHAR(50) UNIQUE,
+	email_ VARCHAR(255) UNIQUE,
 	password_hash_ TEXT,
 	sign_up_date_ DATE,
 	birth_date_ DATE,
@@ -25,12 +25,12 @@ CREATE TABLE user_(
 );
 
 CREATE TABLE friendship_(
-	friendship_id_ SERIAL PRIMARY KEY,
 	user_id_1_ INT,
 	user_id_2_ INT,
 	confirmed_ BOOLEAN,
 	CONSTRAINT fk_user_1_ FOREIGN KEY(user_id_1_) REFERENCES user_(user_id_),
-	CONSTRAINT fk_user_2_ FOREIGN KEY(user_id_2_) REFERENCES user_(user_id_)
+	CONSTRAINT fk_user_2_ FOREIGN KEY(user_id_2_) REFERENCES user_(user_id_),
+	CONSTRAINT pk_friendship_ PRIMARY KEY(user_id_1_, user_id_2_)
 );
 
 CREATE TABLE book_(
@@ -68,7 +68,7 @@ CREATE TABLE review_(
 	book_id_ INT,
 	rating_ INT,
 	review_text_ TEXT,
-	datetime_ TIMESTAMP,
+	datetime_ TIMESTAMP WITH TIME ZONE,
 	CONSTRAINT fk_user_ FOREIGN KEY(user_id_) REFERENCES user_(user_id_),
 	CONSTRAINT fk_book_ FOREIGN KEY(book_id_) REFERENCES book_(book_id_)
 );
@@ -84,5 +84,6 @@ CREATE TABLE like_(
 	user_id_ INT,
 	book_id_ INT,
 	CONSTRAINT fk_user_ FOREIGN KEY(user_id_) REFERENCES user_(user_id_),
-	CONSTRAINT fk_book_ FOREIGN KEY(book_id_) REFERENCES book_(book_id_)
+	CONSTRAINT fk_book_ FOREIGN KEY(book_id_) REFERENCES book_(book_id_),
+	CONSTRAINT pk_like_ PRIMARY KEY (user_id_, book_id_)
 );
