@@ -1,0 +1,23 @@
+.Author {
+   .flex {
+      display: flex;
+      gap: 3rem;
+      margin-bottom: 3rem;
+   }
+
+   .details {
+      h2 {
+         margin-bottom: 0;
+      }
+
+      .dates {
+         margin-bottom: 2rem;
+      }
+   }
+
+   .author-img {
+      max-height: 30rem;
+      margin: -4rem -4rem 0 auto;
+      border-radius: 0 0 0 1rem;
+   }
+}

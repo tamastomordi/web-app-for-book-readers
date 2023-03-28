@@ -11,8 +11,8 @@ import { authState } from './recoil/atoms/Auth';
 import { me } from './api/auth';
 import './styles/_reset.scss';
 import './styles/_global.scss';
-import './styles/App.scss';
 import RedirectRoute from './layouts/RedirectRoute';
+import Author from './pages/Author';
 
 const App = () => {
    const [auth, setAuth] = useRecoilState(authState);
@@ -25,7 +25,7 @@ const App = () => {
          .catch((error) => {
             console.log(error);
          });
-   }, []);
+   }, [setAuth]);
 
    return (
       <div className="App">
@@ -71,6 +71,7 @@ const App = () => {
                }
             />
             <Route path="/book/:bookId" element={<Book />} />
+            <Route path="/author/:authorId" element={<Author />} />
             <Route path="*" element={<NoPage />} />
          </Routes>
       </div>

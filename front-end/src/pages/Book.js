@@ -92,7 +92,10 @@ const Book = () => {
                   )}
                   <div className="details">
                      <h2>
-                        <Link to="/author" className="author">
+                        <Link
+                           to={'/author/' + authors[0].author_id}
+                           className="author"
+                        >
                            {authors[0].name}:
                         </Link>
                         <span className="title"> {book.title}</span>
