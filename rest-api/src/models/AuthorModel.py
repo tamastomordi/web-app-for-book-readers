@@ -7,4 +7,4 @@ class AuthorModel(db.Model):
    description = db.Column('description_', db.Text)
    birth_date = db.Column('birth_date_', db.Date)
    death_date = db.Column('death_date_', db.Date)
-   author_img_path = db.Column('author_img_path_', db.Text)
+   author_img = db.Column('author_img_path_', db.Text)
