@@ -6,7 +6,7 @@ from .common.extensions import api, db, ma, cors
 from .resources.Auth import Login, Signup, Me
 from .resources.User import GetUsers, GetUserById, GetUserByUsername, GetUserByEmail
 from .resources.Book import GetBooks, GetBookById, GetCoverImg, UploadCoverImg, GetBooksLikedByUser
-from .resources.Author import GetAuthors, GetAuthor
+from .resources.Author import GetAuthors, GetAuthor, GetAuthorImg, UploadAuthorImg
 from .resources.Friendship import GetFriendship, RequestFriendship, ConfirmFriendship
 from .resources.Review import GetReviews, GetReview, GetReviewsByBookId, GetReviewsByUserId, AddReview
 from .resources.Reading import GetReadings, GetReading, GetReadingsByUserId, GetReadingsByBookId, AddReading
@@ -36,6 +36,8 @@ def create_app():
 
    api.add_resource(GetAuthors, "/get/authors")
    api.add_resource(GetAuthor, "/get/author/<author_id>")
+   api.add_resource(GetAuthorImg, "/get/author/img/<author_id>")
+   api.add_resource(UploadAuthorImg, "/upload/author/img")
 
    api.add_resource(GetReviews, "/get/reviews")
    api.add_resource(GetReview, "/get/review/<review_id>")
