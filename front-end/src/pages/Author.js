@@ -5,11 +5,21 @@ import { getAuthor, getAuthorImg } from '../api/author';
 import { useParams } from 'react-router-dom';
 import { Buffer } from 'buffer';
 import '../styles/pages/Author.scss';
+import { bookListState } from '../recoil/atoms/BookList';
+import { getBooksByAuthor } from '../api/bookList';
+import BookList from '../layouts/BookList';
 
 const Author = () => {
    const { authorId } = useParams();
    const [author, setAuthor] = useRecoilState(authorState);
    const [authorImg, setAuthorImg] = useRecoilState(authorImgState);
+   const [bookList, setBookList] = useRecoilState(bookListState);
+
+   useEffect(() => {
+      getBooksByAuthor(authorId)
+         .then((data) => setBookList(data.books))
+         .catch((error) => console.log(error));
+   }, [setBookList]);
 
    useEffect(() => {
       getAuthor(authorId)
@@ -51,7 +61,8 @@ const Author = () => {
                      />
                   )}
                </div>
-               <h2>Könyvei</h2>
+               <h2>Az szerző könyvei</h2>
+               <BookList bookList={bookList} />
             </div>
          </div>
       </div>
