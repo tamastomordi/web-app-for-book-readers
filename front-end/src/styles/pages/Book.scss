@@ -7,6 +7,7 @@
    .cover-img {
       border-radius: 1rem 0 1rem 0;
       height: 26rem;
+      box-shadow: 0 0 0.5rem var(--clr-neutral-200);
    }
 
    .flex {
@@ -19,6 +20,7 @@
 
    h2 {
       margin-top: 0.5rem !important;
+      margin-bottom: 0.25rem !important;
    }
 
    .author {
@@ -40,6 +42,12 @@
       &:focus:after {
          width: 100%;
       }
+   }
+
+   .badge-container {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
    }
 
    button {

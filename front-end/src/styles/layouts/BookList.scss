@@ -1,0 +1,57 @@
+.BookList {
+   .search {
+      margin-bottom: 1rem;
+   }
+
+   .book-list-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.2rem;
+   }
+
+   .book-item {
+      width: 12rem;
+      height: 18rem;
+      border-radius: 0.5rem 0 0.5rem 0;
+      box-shadow: 0 0 0.5rem var(--clr-neutral-200);
+      display: block;
+      position: relative;
+
+      img {
+         width: 12rem;
+         height: 18rem;
+         border-radius: 0.5rem 0 0.5rem 0;
+         object-fit: cover;
+      }
+
+      .top {
+         display: block;
+         position: absolute;
+         border-radius: 0.5rem 0 0.5rem 0;
+         background: var(--clr-neutral-600);
+         width: 100%;
+         height: 100%;
+         bottom: 0;
+         left: 0;
+         opacity: 0;
+         transition: opacity 400ms;
+         text-align: center;
+         padding-top: 4rem;
+         color: var(--clr-neutral-200);
+         text-shadow: 0 0 0.5rem black;
+
+         p {
+            margin-bottom: 0.5rem;
+         }
+
+         &:hover {
+            opacity: 0.9;
+         }
+      }
+
+      &:hover {
+         cursor: pointer;
+      }
+   }
+}
