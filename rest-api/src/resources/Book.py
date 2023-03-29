@@ -2,18 +2,32 @@ from flask import send_file
 from flask_restful import Resource, reqparse
 import werkzeug
 from ..common.extensions import db
-from ..models.BookModel import BookModel
+from ..models.BookModel import BookModel, author_book
 from ..models.AuthorModel import AuthorModel
 from ..models.LikeModel import LikeModel
 from ..schemas.AuthorSchema import authors_schema
 from ..schemas.BookSchema import book_schema, books_schema
 from ..common.auth import token_required
 from ..common.allowed_file import allowed_file, get_extension
+from ..common.get_image import get_image
 
 class GetBooks(Resource):
    def get(self):
       books = BookModel.query.all()
       results = books_schema.dump(books)
+      for book in results:
+         if book["cover_img"]:
+            book["cover_img"] = get_image('./src/img/book_covers/'+book['cover_img'])
+      return {'books': results}, 200
+
+class GetBooksByAuthor(Resource):
+   def get(self, author_id):
+      books = BookModel.query.join(author_book).join(AuthorModel).filter_by(author_id=author_id).all()
+      print(books)
+      results = books_schema.dump(books)
+      for book in results:
+         if book["cover_img"]:
+            book["cover_img"] = get_image('./src/img/book_covers/'+book['cover_img'])
       return {'books': results}, 200
 
 class GetBookById(Resource):
@@ -21,15 +35,15 @@ class GetBookById(Resource):
    def get(current_user, self, book_id):
       book = BookModel.query.filter_by(book_id=book_id).first()
       result = book_schema.dump(book)
-      authors = authors_schema.dump(book.authors)
-      return {'book': result, 'authors': authors}, 200
+      if result["cover_img"]:
+         result["cover_img"] = get_image('./src/img/book_covers/'+result["cover_img"])
+      return {'book': result}, 200
 
 class AddBook(Resource):
    def __init__(self):
       self.reqparse = reqparse.RequestParser()
       self.reqparse.add_argument('title')
       self.reqparse.add_argument('subtitle')
-      self.reqparse.add_argument('cover_img_path')
       self.reqparse.add_argument('description')
       self.reqparse.add_argument('published')
       self.reqparse.add_argument('approved', type=bool)
@@ -38,7 +52,7 @@ class AddBook(Resource):
 
    def post(self):
          args = self.reqparse.parse_args()
-         new_book = BookModel(title=args['title'], subtitle=args['subtitle'], cover_img_path=args['cover_img_path'], description=args['description'], published=args['published'], approved=args['approved'])
+         new_book = BookModel(title=args['title'], subtitle=args['subtitle'], description=args['description'], published=args['published'], approved=args['approved'])
          for author_id in args['authors']:
             new_book.authors.append(AuthorModel.query.filter_by(author_id=author_id).first())
          db.session.add(new_book)

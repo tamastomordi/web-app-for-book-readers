@@ -5,8 +5,8 @@ from .common.extensions import api, db, ma, cors
 
 from .resources.Auth import Login, Signup, Me
 from .resources.User import GetUsers, GetUserById, GetUserByUsername, GetUserByEmail
-from .resources.Book import GetBooks, GetBookById, GetCoverImg, UploadCoverImg, GetBooksLikedByUser
-from .resources.Author import GetAuthors, GetAuthor, GetAuthorImg, UploadAuthorImg
+from .resources.Book import GetBooks, GetBookById, GetCoverImg, UploadCoverImg, GetBooksLikedByUser, AddBook, GetBooksByAuthor
+from .resources.Author import GetAuthors, GetAuthor, GetAuthorImg, AddAuthor, UploadAuthorImg
 from .resources.Friendship import GetFriendship, RequestFriendship, ConfirmFriendship
 from .resources.Review import GetReviews, GetReview, GetReviewsByBookId, GetReviewsByUserId, AddReview
 from .resources.Reading import GetReadings, GetReading, GetReadingsByUserId, GetReadingsByBookId, AddReading
@@ -29,14 +29,17 @@ def create_app():
    api.add_resource(GetUserByEmail, "/get/user/email/<email>")
 
    api.add_resource(GetBooks, "/get/books")
+   api.add_resource(GetBooksByAuthor, "/get/books/author/<author_id>")
    api.add_resource(GetBookById, "/get/book/<book_id>")
    api.add_resource(GetCoverImg, "/get/book/cover_img/<book_id>")
    api.add_resource(UploadCoverImg, "/upload/book/cover_img")
    api.add_resource(GetBooksLikedByUser, "/get/liked_books/<user_id>")
+   api.add_resource(AddBook, "/add/book")
 
    api.add_resource(GetAuthors, "/get/authors")
    api.add_resource(GetAuthor, "/get/author/<author_id>")
    api.add_resource(GetAuthorImg, "/get/author/img/<author_id>")
+   api.add_resource(AddAuthor, "/add/author")
    api.add_resource(UploadAuthorImg, "/upload/author/img")
 
    api.add_resource(GetReviews, "/get/reviews")

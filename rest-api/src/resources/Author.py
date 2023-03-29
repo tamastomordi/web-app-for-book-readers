@@ -53,12 +53,11 @@ class AddAuthor(Resource):
       self.reqparse.add_argument('description')
       self.reqparse.add_argument('birth_date')
       self.reqparse.add_argument('death_date')
-      self.reqparse.add_argument('author_img_path')
       super(AddAuthor, self).__init__()
 
    def post(self):
       args = self.reqparse.parse_args()
-      new_author = AuthorModel(name=args['name'], description=args['description'], birth_date=args['birth_date'], death_date=args['death_date'], author_img_path=args['author_img_path'])
+      new_author = AuthorModel(name=args['name'], description=args['description'], birth_date=args['birth_date'], death_date=args['death_date'])
       db.session.add(new_author)
       db.session.commit()
       return {'message': 'Author successfully created'}, 201

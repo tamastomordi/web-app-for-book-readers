@@ -1,7 +1,7 @@
 from ..common.extensions import db
 from .AuthorModel import AuthorModel
 
-association_table = db.Table('author_book_', db.Model.metadata,
+author_book = db.Table('author_book_', db.Model.metadata,
    db.Column('author_id_', db.Integer, db.ForeignKey('author_.author_id_')),
    db.Column('book_id_', db.Integer, db.ForeignKey('book_.book_id_'))
 )
@@ -17,4 +17,4 @@ class BookModel(db.Model):
    published = db.Column('published_', db.Date)
    approved = db.Column('approved_', db.Boolean)
 
-   authors = db.relationship("AuthorModel", secondary=association_table)
+   authors = db.relationship("AuthorModel", secondary=author_book)
