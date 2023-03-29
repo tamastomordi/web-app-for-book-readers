@@ -1,19 +1,9 @@
 import { useEffect } from 'react';
-import {
-   getBook,
-   getCoverImg,
-   isLiked,
-   like,
-   dislike,
-   getNumberOfLikes
-} from '../api/book';
+import { getBook, isLiked, like, dislike, getNumberOfLikes } from '../api/book';
 import { useParams, Link } from 'react-router-dom';
-import { Buffer } from 'buffer';
 import { useRecoilState } from 'recoil';
 import {
    bookState,
-   authorsState,
-   coverImgState,
    likedState,
    numberOfLikesState,
    modalsState
@@ -25,35 +15,22 @@ import { BsBookmarkPlusFill, BsStarFill } from 'react-icons/bs';
 import Badge from '../components/Badge';
 import ReviewModal from '../layouts/ReviewModal';
 import ReviewList from '../layouts/ReviewList';
-import { useNavigate } from 'react-router-dom';
 
 const Book = () => {
    const { bookId } = useParams();
    let [book, setBook] = useRecoilState(bookState);
-   let [authors, setAuthors] = useRecoilState(authorsState);
-   let [coverImg, setCoverImg] = useRecoilState(coverImgState);
    let [numberOfLikes, setNumberOfLikes] = useRecoilState(numberOfLikesState);
    let [liked, setLiked] = useRecoilState(likedState);
    let [modals, setModals] = useRecoilState(modalsState);
-   let navigate = useNavigate();
 
    useEffect(() => {
       getBook(bookId)
-         .then((data) => {
-            setBook(data.book);
-            setAuthors(data.authors);
-         })
-         .catch((error) => navigate('/home'));
-      getCoverImg(bookId)
-         .then((data) => {
-            let coverImg = Buffer.from(data, 'binary').toString('base64');
-            setCoverImg(coverImg);
-         })
+         .then((data) => setBook(data.book))
          .catch((error) => console.log(error));
       isLiked(bookId)
          .then((data) => setLiked(data.liked))
          .catch((error) => console.log(error));
-   }, [bookId, setBook, setAuthors, setCoverImg, setLiked, navigate]);
+   }, [bookId, setBook, setLiked]);
 
    useEffect(() => {
       getNumberOfLikes(bookId)
@@ -83,22 +60,24 @@ const Book = () => {
          <div className="container">
             <div className="card -wide">
                <div className="flex">
-                  {coverImg && (
+                  {book.cover_img && (
                      <img
                         className="cover-img"
                         alt="Borítókép"
-                        src={`data:;base64,${coverImg}`}
+                        src={`data:;base64,${book.cover_img}`}
                      />
                   )}
                   <div className="details">
                      <h2>
                         <Link
-                           to={'/author/' + authors[0].author_id}
+                           to={'/author/' + book.authors[0].author_id}
                            className="author"
                         >
-                           {authors[0].name}:
+                           {book.authors[0].name}:
                         </Link>
                         <span className="title"> {book.title}</span>
+                     </h2>
+                     <div className="badge-container">
                         <Badge
                            className="rating-stamp"
                            icon={<BsStarFill />}
@@ -109,7 +88,7 @@ const Book = () => {
                            icon={<FaHeart />}
                            text={numberOfLikes}
                         />
-                     </h2>
+                     </div>
                      <p>{book.subtitle}</p>
                      <p>{book.description}</p>
                      <div className="panel">
