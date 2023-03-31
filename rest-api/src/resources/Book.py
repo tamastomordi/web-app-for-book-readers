@@ -10,7 +10,6 @@ from ..schemas.BookSchema import book_schema, books_schema
 from ..common.auth import token_required
 from ..common.allowed_file import allowed_file, get_extension
 from ..common.get_image import get_image
-from ..common.allowed_file import allowed_file
 
 class GetBooks(Resource):
    def get(self):
@@ -53,7 +52,6 @@ class AddBook(Resource):
 
 class GetCoverImg(Resource):
    def get(self, book_id):
-      FOLDER = 'img/book_covers/'
       book = BookModel.query.filter_by(book_id=book_id).first()
       if book and book.cover_img:
          return send_file(book.cover_img), 200

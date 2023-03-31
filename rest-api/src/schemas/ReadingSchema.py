@@ -3,6 +3,8 @@ from ..models.ReadingModel import ReadingModel
 from ..schemas.BookSchema import BookSchema
 
 class ReadingSchema(ma.SQLAlchemyAutoSchema):
+   book = ma.Nested(BookSchema)
+
    class Meta:
       model = ReadingModel
 

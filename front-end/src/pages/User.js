@@ -5,6 +5,7 @@ import { useRecoilState, useResetRecoilState } from 'recoil';
 import { userState, readingsState, favoritesState } from '../recoil/atoms/User';
 import BookList from '../layouts/BookList';
 import { PulseLoader } from 'react-spinners';
+import '../styles/pages/User.scss';
 
 const User = () => {
    const { userId } = useParams();
@@ -16,6 +17,7 @@ const User = () => {
    useEffect(() => {
       getUser(userId)
          .then((data) => {
+            console.log(data);
             setUser(data.user);
             setFavorites(data.favorites);
          })
@@ -34,10 +36,14 @@ const User = () => {
       <div className="User">
          <div className="container">
             <div className="card -wide">
-               <img className="profile-img" />
-               <h2>
-                  {user.username} <span className="gray">profilja</span>
-               </h2>
+               {user.user_img && (
+                  <img
+                     className="user-img"
+                     alt="Profilkép"
+                     src={`data:;base64,${user.user_img}`}
+                  />
+               )}
+               <h2 className="username">{user.username}</h2>
                <h3>Aktuális olvasások</h3>
                <h3>Kedvenc könyvek</h3>
                <BookList bookList={favorites} />

@@ -19,10 +19,10 @@ class GetAuthors(Resource):
 
 class GetAuthorImg(Resource):
    def get(self, author_id):
-      FOLDER = 'img/author_images/'
       author = AuthorModel.query.filter_by(author_id=author_id).first()
-      if author and author.author_img:
-         return send_file(FOLDER + author.author_img)
+      author = author_schema.dump(author)
+      if author and author['author_img']:
+         return send_file(author['author_img'])
       return {'error': 'Unsuccessful img get'}, 400 
 
 class UploadAuthorImg(Resource):
