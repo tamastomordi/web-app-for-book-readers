@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { getBook, isLiked, like, dislike, getNumberOfLikes } from '../api/book';
 import { useParams, Link } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useResetRecoilState } from 'recoil';
 import {
    bookState,
    likedState,
@@ -15,6 +15,7 @@ import { BsBookmarkPlusFill, BsStarFill } from 'react-icons/bs';
 import Badge from '../components/Badge';
 import ReviewModal from '../layouts/ReviewModal';
 import ReviewList from '../layouts/ReviewList';
+import { PulseLoader } from 'react-spinners';
 
 const Book = () => {
    const { bookId } = useParams();
@@ -22,6 +23,7 @@ const Book = () => {
    let [numberOfLikes, setNumberOfLikes] = useRecoilState(numberOfLikesState);
    let [liked, setLiked] = useRecoilState(likedState);
    let [modals, setModals] = useRecoilState(modalsState);
+   let resetBook = useResetRecoilState(bookState);
 
    useEffect(() => {
       getBook(bookId)
@@ -30,6 +32,7 @@ const Book = () => {
       isLiked(bookId)
          .then((data) => setLiked(data.liked))
          .catch((error) => console.log(error));
+      return () => resetBook();
    }, [bookId, setBook, setLiked]);
 
    useEffect(() => {
@@ -53,7 +56,12 @@ const Book = () => {
    const onClickReviewButton = () =>
       setModals({ ...modals, showReviewModal: true });
 
-   if (!book) return <p>Loading...</p>;
+   if (!book)
+      return (
+         <div className="loader">
+            <PulseLoader color="rgb(20, 20, 20)" />
+         </div>
+      );
 
    return (
       <div className="Book">

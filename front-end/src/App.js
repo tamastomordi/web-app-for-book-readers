@@ -13,6 +13,7 @@ import './styles/_reset.scss';
 import './styles/_global.scss';
 import RedirectRoute from './layouts/RedirectRoute';
 import Author from './pages/Author';
+import User from './pages/User';
 
 const App = () => {
    const [auth, setAuth] = useRecoilState(authState);
@@ -72,6 +73,7 @@ const App = () => {
             />
             <Route path="/book/:bookId" element={<Book />} />
             <Route path="/author/:authorId" element={<Author />} />
+            <Route path="/user/:userId" element={<User />} />
             <Route path="*" element={<NoPage />} />
          </Routes>
       </div>

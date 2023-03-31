@@ -1,15 +1,17 @@
-import Search from './Search';
 import { Link } from 'react-router-dom';
 import '../styles/layouts/BookList.scss';
+import { PulseLoader } from 'react-spinners';
 
 const BookList = ({ bookList }) => {
-   if (!bookList[0]) return <div>Loading...</div>;
+   if (!bookList[0])
+      return (
+         <div className="loader">
+            <PulseLoader color="rgb(20, 20, 20)" />
+         </div>
+      );
 
    return (
       <div className="BookList">
-         <div className="search">
-            <Search />
-         </div>
          <div className="book-list-container">
             {bookList.map((book, index) => {
                return (
