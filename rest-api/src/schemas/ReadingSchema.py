@@ -1,5 +1,6 @@
 from ..common.extensions import ma
 from ..models.ReadingModel import ReadingModel
+from ..schemas.BookSchema import BookSchema
 
 class ReadingSchema(ma.SQLAlchemyAutoSchema):
    class Meta:

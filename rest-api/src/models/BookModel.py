@@ -12,9 +12,8 @@ class BookModel(db.Model):
    book_id = db.Column('book_id_', db.Integer, primary_key=True)
    title = db.Column('title_', db.String(255))
    subtitle = db.Column('subtitle_', db.String(255))
-   cover_img = db.Column('cover_img_path_', db.Text)
+   cover_img_file = db.Column('cover_img_file_', db.Text)
    description = db.Column('description_', db.Text)
-   published = db.Column('published_', db.Date)
    approved = db.Column('approved_', db.Boolean)
 
    authors = db.relationship("AuthorModel", secondary=author_book)

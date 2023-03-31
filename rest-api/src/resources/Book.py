@@ -10,24 +10,18 @@ from ..schemas.BookSchema import book_schema, books_schema
 from ..common.auth import token_required
 from ..common.allowed_file import allowed_file, get_extension
 from ..common.get_image import get_image
+from ..common.allowed_file import allowed_file
 
 class GetBooks(Resource):
    def get(self):
       books = BookModel.query.all()
       results = books_schema.dump(books)
-      for book in results:
-         if book["cover_img"]:
-            book["cover_img"] = get_image('./src/img/book_covers/'+book['cover_img'])
       return {'books': results}, 200
 
 class GetBooksByAuthor(Resource):
    def get(self, author_id):
       books = BookModel.query.join(author_book).join(AuthorModel).filter_by(author_id=author_id).all()
-      print(books)
       results = books_schema.dump(books)
-      for book in results:
-         if book["cover_img"]:
-            book["cover_img"] = get_image('./src/img/book_covers/'+book['cover_img'])
       return {'books': results}, 200
 
 class GetBookById(Resource):
@@ -35,8 +29,6 @@ class GetBookById(Resource):
    def get(current_user, self, book_id):
       book = BookModel.query.filter_by(book_id=book_id).first()
       result = book_schema.dump(book)
-      if result["cover_img"]:
-         result["cover_img"] = get_image('./src/img/book_covers/'+result["cover_img"])
       return {'book': result}, 200
 
 class AddBook(Resource):
@@ -64,7 +56,7 @@ class GetCoverImg(Resource):
       FOLDER = 'img/book_covers/'
       book = BookModel.query.filter_by(book_id=book_id).first()
       if book and book.cover_img:
-         return send_file(FOLDER + book.cover_img)
+         return send_file(book.cover_img), 200
       return {'error': 'Unsuccessful img get'}, 400 
 
 class UploadCoverImg(Resource):
@@ -81,7 +73,7 @@ class UploadCoverImg(Resource):
       if book and cover_img and allowed_file(cover_img.filename):
          path = FOLDER+'/'+args['book_id']+'.'+get_extension(cover_img.filename)
          cover_img.save(path)
-         book.cover_img = args['book_id']+'.'+get_extension(cover_img.filename)
+         book.cover_img_file = args['book_id']+'.'+get_extension(cover_img.filename)
          db.session.add(book)
          db.session.commit()
          return {'message': 'Cover img successfully added'}, 201

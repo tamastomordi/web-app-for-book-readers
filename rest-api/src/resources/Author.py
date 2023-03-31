@@ -4,7 +4,6 @@ from flask_restful import Resource, reqparse
 from ..common.extensions import db
 from ..models.AuthorModel import AuthorModel
 from ..schemas.AuthorSchema import author_schema, authors_schema
-from ..common.allowed_file import allowed_file, get_extension
 
 class GetAuthor(Resource):
    def get(self, author_id):

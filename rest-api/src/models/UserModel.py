@@ -8,6 +8,6 @@ class UserModel(db.Model):
    password_hash = db.Column('password_hash_', db.Text)
    sign_up_date = db.Column('sign_up_date_', db.Date)
    birth_date = db.Column('birth_date_', db.Date)
-   user_img_path = db.Column('user_img_path_', db.Text)
+   user_img_file = db.Column('user_img_file_', db.String(255))
    location = db.Column('location_', db.String(255))
    gender = db.Column('gender_', db.String(1))
