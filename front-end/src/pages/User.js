@@ -20,6 +20,8 @@ const User = () => {
             console.log(data);
             setUser(data.user);
             setFavorites(data.favorites);
+            setReadings(data.readings);
+            console.log(data.readings);
          })
          .catch((error) => console.log(error));
       return () => resetUser;

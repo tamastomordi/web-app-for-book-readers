@@ -16,6 +16,7 @@ import Badge from '../components/Badge';
 import ReviewModal from '../layouts/ReviewModal';
 import ReviewList from '../layouts/ReviewList';
 import { PulseLoader } from 'react-spinners';
+import ReadingModal from '../layouts/ReadingModal';
 
 const Book = () => {
    const { bookId } = useParams();
@@ -55,6 +56,9 @@ const Book = () => {
 
    const onClickReviewButton = () =>
       setModals({ ...modals, showReviewModal: true });
+
+   const onClickReadingButton = () =>
+      setModals({ ...modals, showReadingModal: true });
 
    if (!book)
       return (
@@ -104,6 +108,7 @@ const Book = () => {
                            className="read"
                            text="Új olvasás"
                            icon={<BsBookmarkPlusFill />}
+                           onClick={onClickReadingButton}
                         ></IconButton>
                         <IconButton
                            className="like"
@@ -128,6 +133,14 @@ const Book = () => {
                bookId={bookId}
                onClose={() => {
                   setModals({ ...modals, showReviewModal: false });
+               }}
+            />
+         )}
+         {modals.showReadingModal && (
+            <ReadingModal
+               bookId={bookId}
+               onClose={() => {
+                  setModals({ ...modals, showReadingModal: false });
                }}
             />
          )}

@@ -2,6 +2,7 @@ from flask_restful import Resource, reqparse
 from ..models.ReadingModel import ReadingModel
 from ..schemas.ReadingSchema import reading_schema, readings_schema
 from ..common.extensions import db
+from ..common.auth import token_required
 
 class GetReadings(Resource):
    def get(self):
@@ -31,14 +32,13 @@ class AddReading(Resource):
    def __init__(self):
       self.reqparse = reqparse.RequestParser()
       self.reqparse.add_argument('book_id')
-      self.reqparse.add_argument('user_id')
       self.reqparse.add_argument('start')
-      self.reqparse.add_argument('end')
       super(AddReading, self).__init__()
    
-   def post(self):
+   @token_required
+   def post(current_user, self):
       args = self.reqparse.parse_args()
-      reading = ReadingModel(book_id=args['book_id'], user_id=args['user_id'], start=args['start'], end=args['end'])
+      reading = ReadingModel(book_id=args['book_id'], user_id=current_user.user_id, start=args['start'])
       db.session.add(reading)
       db.session.commit()
       return {'message': 'Reading successfully added'}, 201
