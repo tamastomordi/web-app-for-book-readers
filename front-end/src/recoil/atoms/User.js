@@ -5,8 +5,8 @@ export const userState = atom({
    default: null
 });
 
-export const readingsState = atom({
-   key: 'readingsState',
+export const readingListState = atom({
+   key: 'readingListState',
    default: []
 });
 

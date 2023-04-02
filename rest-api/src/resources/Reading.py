@@ -42,3 +42,28 @@ class AddReading(Resource):
       db.session.add(reading)
       db.session.commit()
       return {'message': 'Reading successfully added'}, 201
+
+class IsReading(Resource):   
+   @token_required
+   def get(current_user, self, book_id):
+      reading = ReadingModel.query.filter_by(user_id=current_user.user_id, book_id=book_id, end=None).first()
+      if reading:
+         return {'reading': True}, 200
+      else:
+         return {'reading': False}, 200
+
+class EndReading(Resource):
+   def __init__(self):
+      self.reqparse = reqparse.RequestParser()
+      self.reqparse.add_argument('book_id')
+      self.reqparse.add_argument('end')
+      super(EndReading, self).__init__()
+   
+   @token_required
+   def put(current_user, self):
+      args = self.reqparse.parse_args()
+      reading = ReadingModel.query.filter_by(user_id=current_user.user_id, book_id=args['book_id'], end=None).first()
+      if reading:
+         reading.end = args['end']
+      db.session.commit()
+      return {'message': 'Reading successfully ended'}, 201

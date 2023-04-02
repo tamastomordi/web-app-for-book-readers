@@ -17,7 +17,7 @@ class GetUserById(Resource):
    def get(self, user_id):
       user = UserModel.query.filter_by(user_id=user_id).first()
       favorites = BookModel.query.join(LikeModel).filter_by(user_id=user_id).all()
-      readings = ReadingModel.query.filter_by(user_id=user_id).all()
+      readings = ReadingModel.query.filter_by(user_id=user_id, end=None).all()
       user = user_schema.dump(user)
       favorites = books_schema.dump(favorites)
       readings = readings_schema.dump(readings)

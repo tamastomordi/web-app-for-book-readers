@@ -52,3 +52,12 @@ class AddReview(Resource):
       db.session.commit()
       return {'message': 'Review successfully added'}, 201
 
+class IsReviewed(Resource):   
+   @token_required
+   def get(current_user, self, book_id):
+      review = ReviewModel.query.filter_by(book_id=book_id, user_id=current_user.user_id).first()
+      if review:
+         return {'reviewed': True}, 200
+      else:
+         return {'reviewed': False}, 200
+

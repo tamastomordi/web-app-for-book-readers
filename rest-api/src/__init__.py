@@ -8,8 +8,8 @@ from .resources.User import GetUsers, GetUserById, GetUserByUsername, GetUserByE
 from .resources.Book import GetBooks, GetBookById, GetCoverImg, UploadCoverImg, GetBooksLikedByUser, AddBook, GetBooksByAuthor
 from .resources.Author import GetAuthors, GetAuthor, GetAuthorImg, AddAuthor, UploadAuthorImg
 from .resources.Friendship import GetFriendship, RequestFriendship, ConfirmFriendship
-from .resources.Review import GetReviews, GetReview, GetReviewsByBookId, GetReviewsByUserId, AddReview
-from .resources.Reading import GetReadings, GetReading, GetReadingsByUserId, GetReadingsByBookId, AddReading
+from .resources.Review import GetReviews, GetReview, GetReviewsByBookId, GetReviewsByUserId, AddReview, IsReviewed
+from .resources.Reading import GetReadings, GetReading, GetReadingsByUserId, GetReadingsByBookId, AddReading, IsReading, EndReading
 from .resources.Like import Like, Dislike, GetNumberOfLikes, IsLiked
 
 load_dotenv()
@@ -49,12 +49,16 @@ def create_app():
    api.add_resource(GetReviewsByBookId, "/get/reviews/book_id/<book_id>")
    api.add_resource(GetReviewsByUserId, "/get/reviews/user_id/<user_id>")
    api.add_resource(AddReview, "/add/review")
+   api.add_resource(IsReviewed, "/isreviewed/<book_id>")
 
    api.add_resource(GetReadings, "/get/readings")
    api.add_resource(GetReading, "/get/reading/<reading_id>")
    api.add_resource(GetReadingsByUserId, "/get/readings/user_id/<user_id>")
    api.add_resource(GetReadingsByBookId, "/get/readings/book_id/<book_id>")
    api.add_resource(AddReading, "/add/reading")
+   api.add_resource(EndReading, "/end/reading")
+   api.add_resource(IsReading, "/isreading/<book_id>")
+
 
    api.add_resource(Like, "/like")
    api.add_resource(Dislike, "/dislike/<book_id>")

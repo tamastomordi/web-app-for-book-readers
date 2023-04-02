@@ -1,0 +1,13 @@
+.Reading {
+   display: flex;
+   gap: 1rem;
+
+   .book {
+      max-width: 5rem;
+   }
+
+   .authors,
+   .title {
+      font-weight: bold;
+   }
+}

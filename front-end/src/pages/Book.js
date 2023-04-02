@@ -1,10 +1,20 @@
 import { useEffect } from 'react';
-import { getBook, isLiked, like, dislike, getNumberOfLikes } from '../api/book';
+import {
+   getBook,
+   isLiked,
+   like,
+   dislike,
+   getNumberOfLikes,
+   isReading,
+   isReviewed
+} from '../api/book';
 import { useParams, Link } from 'react-router-dom';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import {
    bookState,
    likedState,
+   readingState,
+   reviewedState,
    numberOfLikesState,
    modalsState
 } from '../recoil/atoms/Book';
@@ -17,12 +27,15 @@ import ReviewModal from '../layouts/ReviewModal';
 import ReviewList from '../layouts/ReviewList';
 import { PulseLoader } from 'react-spinners';
 import ReadingModal from '../layouts/ReadingModal';
+import { addReading, endReading } from '../api/reading';
 
 const Book = () => {
    const { bookId } = useParams();
    let [book, setBook] = useRecoilState(bookState);
    let [numberOfLikes, setNumberOfLikes] = useRecoilState(numberOfLikesState);
    let [liked, setLiked] = useRecoilState(likedState);
+   let [reading, setReading] = useRecoilState(readingState);
+   let [reviewed, setReviewed] = useRecoilState(reviewedState);
    let [modals, setModals] = useRecoilState(modalsState);
    let resetBook = useResetRecoilState(bookState);
 
@@ -33,8 +46,14 @@ const Book = () => {
       isLiked(bookId)
          .then((data) => setLiked(data.liked))
          .catch((error) => console.log(error));
+      isReading(bookId)
+         .then((data) => setReading(data.reading))
+         .catch((error) => console.log(error));
+      isReviewed(bookId)
+         .then((data) => setReviewed(data.reviewed))
+         .catch((error) => console.log(error));
       return () => resetBook();
-   }, [bookId, setBook, setLiked]);
+   }, [bookId, setBook, setLiked, resetBook, setReading, setReviewed]);
 
    useEffect(() => {
       getNumberOfLikes(bookId)
@@ -57,8 +76,17 @@ const Book = () => {
    const onClickReviewButton = () =>
       setModals({ ...modals, showReviewModal: true });
 
-   const onClickReadingButton = () =>
-      setModals({ ...modals, showReadingModal: true });
+   const onClickReadingButton = () => {
+      if (reading) {
+         endReading(bookId, new Date().toISOString())
+            .then((data) => setReading(false))
+            .catch((error) => console.log(error));
+      } else {
+         addReading(bookId, new Date().toISOString())
+            .then((data) => setReading(true))
+            .catch((error) => console.log(error));
+      }
+   };
 
    if (!book)
       return (
@@ -106,7 +134,9 @@ const Book = () => {
                      <div className="panel">
                         <IconButton
                            className="read"
-                           text="Új olvasás"
+                           text={
+                              reading ? 'Olvasás befejezése' : 'Most olvasom'
+                           }
                            icon={<BsBookmarkPlusFill />}
                            onClick={onClickReadingButton}
                         ></IconButton>
@@ -118,7 +148,7 @@ const Book = () => {
                         ></IconButton>
                         <IconButton
                            className="rate"
-                           text="Értékelés"
+                           text={reviewed ? 'Módosítás' : 'Értékelés'}
                            icon={<BsStarFill />}
                            onClick={onClickReviewButton}
                         ></IconButton>

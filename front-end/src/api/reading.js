@@ -9,3 +9,13 @@ export const addReading = async (bookId, start) => {
       .catch((error) => console.log(error));
    return response.data;
 };
+
+export const endReading = async (bookId, end) => {
+   const response = await axios
+      .put('/end/reading', {
+         book_id: bookId,
+         end: end
+      })
+      .catch((error) => console.log(error));
+   return response.data;
+};

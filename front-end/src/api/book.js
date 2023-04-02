@@ -45,3 +45,17 @@ export const isLiked = async (bookId) => {
       .catch((error) => console.log(error));
    return response.data;
 };
+
+export const isReading = async (bookId) => {
+   const response = await axios
+      .get('/isreading/' + bookId)
+      .catch((error) => console.log(error));
+   return response.data;
+};
+
+export const isReviewed = async (bookId) => {
+   const response = await axios
+      .get('/isreviewed/' + bookId)
+      .catch((error) => console.log(error));
+   return response.data;
+};

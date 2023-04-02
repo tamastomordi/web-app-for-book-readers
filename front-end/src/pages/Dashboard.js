@@ -10,15 +10,15 @@ import Stats from '../layouts/Stats';
 
 const Dashboard = () => {
    const auth = useRecoilValue(authState);
-   const [bookList, setBookList] = useRecoilState(bookListState);
-   let resetBookList = useResetRecoilState(bookListState);
+   const [books, setBooks] = useRecoilState(bookListState);
+   let resetBooks = useResetRecoilState(bookListState);
 
    useEffect(() => {
       getBooks()
-         .then((data) => setBookList(data.books))
+         .then((data) => setBooks(data.books))
          .catch((error) => console.log(error));
-      return () => resetBookList();
-   }, [setBookList]);
+      return () => resetBooks();
+   }, [setBooks, resetBooks]);
 
    return (
       <div className="Dashboard">
@@ -26,7 +26,7 @@ const Dashboard = () => {
             <div className="card -wide">
                <Welcome username={auth.user.username} />
                <Stats />
-               <BookList bookList={bookList} />
+               <BookList books={books} />
             </div>
          </div>
       </div>

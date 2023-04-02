@@ -17,7 +17,7 @@ const Author = () => {
       getBooksByAuthor(authorId)
          .then((data) => setBookList(data.books))
          .catch((error) => console.log(error));
-   }, [setBookList]);
+   }, [authorId, setBookList]);
 
    useEffect(() => {
       getAuthor(authorId)
@@ -50,8 +50,8 @@ const Author = () => {
                      />
                   )}
                </div>
-               <h2>Az szerző könyvei</h2>
-               <BookList bookList={bookList} />
+               <h2>A szerző könyvei</h2>
+               <BookList books={bookList} />
             </div>
          </div>
       </div>

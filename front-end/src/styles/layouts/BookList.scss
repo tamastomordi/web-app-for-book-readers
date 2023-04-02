@@ -1,14 +1,8 @@
 .BookList {
-   .search {
-      margin-bottom: 1rem;
-   }
-
-   .book-list-container {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr 1fr;
-      gap: 1rem;
-      justify-items: center;
-   }
+   display: grid;
+   grid-template-columns: 1fr 1fr 1fr 1fr;
+   gap: 1rem;
+   justify-items: center;
 
    .book-item {
       border-radius: 0.5rem 0 0.5rem 0;

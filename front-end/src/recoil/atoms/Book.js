@@ -20,6 +20,16 @@ export const likedState = atom({
    default: false
 });
 
+export const readingState = atom({
+   key: 'readingState',
+   default: false
+});
+
+export const reviewedState = atom({
+   key: 'reviewedState',
+   default: false
+});
+
 export const numberOfLikesState = atom({
    key: 'numberOfLikesState',
    default: 0
