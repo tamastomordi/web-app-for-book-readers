@@ -6,7 +6,7 @@ import {
    dislike,
    getNumberOfLikes,
    isReading,
-   isReviewed
+   getReview
 } from '../api/book';
 import { useParams, Link } from 'react-router-dom';
 import { useRecoilState, useResetRecoilState } from 'recoil';
@@ -14,7 +14,7 @@ import {
    bookState,
    likedState,
    readingState,
-   reviewedState,
+   reviewState,
    numberOfLikesState,
    modalsState
 } from '../recoil/atoms/Book';
@@ -35,7 +35,7 @@ const Book = () => {
    let [numberOfLikes, setNumberOfLikes] = useRecoilState(numberOfLikesState);
    let [liked, setLiked] = useRecoilState(likedState);
    let [reading, setReading] = useRecoilState(readingState);
-   let [reviewed, setReviewed] = useRecoilState(reviewedState);
+   let [review, setReview] = useRecoilState(reviewState);
    let [modals, setModals] = useRecoilState(modalsState);
    let resetBook = useResetRecoilState(bookState);
 
@@ -49,11 +49,13 @@ const Book = () => {
       isReading(bookId)
          .then((data) => setReading(data.reading))
          .catch((error) => console.log(error));
-      isReviewed(bookId)
-         .then((data) => setReviewed(data.reviewed))
+      getReview(bookId)
+         .then((data) => {
+            if (data.review) setReview(data.review);
+         })
          .catch((error) => console.log(error));
       return () => resetBook();
-   }, [bookId, setBook, setLiked, resetBook, setReading, setReviewed]);
+   }, [bookId, setBook, setLiked, resetBook, setReading, setReview]);
 
    useEffect(() => {
       getNumberOfLikes(bookId)
@@ -148,7 +150,7 @@ const Book = () => {
                         ></IconButton>
                         <IconButton
                            className="rate"
-                           text={reviewed ? 'Módosítás' : 'Értékelés'}
+                           text={review ? 'Módosítás' : 'Értékelés'}
                            icon={<BsStarFill />}
                            onClick={onClickReviewButton}
                         ></IconButton>
@@ -161,6 +163,7 @@ const Book = () => {
          {modals.showReviewModal && (
             <ReviewModal
                bookId={bookId}
+               review={review}
                onClose={() => {
                   setModals({ ...modals, showReviewModal: false });
                }}

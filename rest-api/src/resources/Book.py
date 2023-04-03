@@ -1,6 +1,7 @@
 from flask import send_file
 from flask_restful import Resource, reqparse
 import werkzeug
+from sqlalchemy import func
 from ..common.extensions import db
 from ..models.BookModel import BookModel, author_book
 from ..models.AuthorModel import AuthorModel
@@ -12,8 +13,14 @@ from ..common.allowed_file import allowed_file, get_extension
 from ..common.get_image import get_image
 
 class GetBooks(Resource):
+   def __init__(self):
+      self.reqparse = reqparse.RequestParser()
+      self.reqparse.add_argument('searchTerm', type=str, location="args")
+      super(GetBooks, self).__init__()
+
    def get(self):
-      books = BookModel.query.all()
+      args = self.reqparse.parse_args()
+      books = BookModel.query.filter(func.lower(BookModel.title).contains(args['searchTerm'])).all()
       results = books_schema.dump(books)
       return {'books': results}, 200
 

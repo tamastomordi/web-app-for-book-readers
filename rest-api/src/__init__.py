@@ -8,7 +8,7 @@ from .resources.User import GetUsers, GetUserById, GetUserByUsername, GetUserByE
 from .resources.Book import GetBooks, GetBookById, GetCoverImg, UploadCoverImg, GetBooksLikedByUser, AddBook, GetBooksByAuthor
 from .resources.Author import GetAuthors, GetAuthor, GetAuthorImg, AddAuthor, UploadAuthorImg
 from .resources.Friendship import GetFriendship, RequestFriendship, ConfirmFriendship
-from .resources.Review import GetReviews, GetReview, GetReviewsByBookId, GetReviewsByUserId, AddReview, IsReviewed
+from .resources.Review import GetReviews, GetReviewsByBookId, GetReviewsByUserId, AddReview, GetReview, EditReview, DeleteReview
 from .resources.Reading import GetReadings, GetReading, GetReadingsByUserId, GetReadingsByBookId, AddReading, IsReading, EndReading
 from .resources.Like import Like, Dislike, GetNumberOfLikes, IsLiked
 
@@ -45,11 +45,12 @@ def create_app():
    api.add_resource(UploadAuthorImg, "/upload/author/img")
 
    api.add_resource(GetReviews, "/get/reviews")
-   api.add_resource(GetReview, "/get/review/<review_id>")
    api.add_resource(GetReviewsByBookId, "/get/reviews/book_id/<book_id>")
    api.add_resource(GetReviewsByUserId, "/get/reviews/user_id/<user_id>")
    api.add_resource(AddReview, "/add/review")
-   api.add_resource(IsReviewed, "/isreviewed/<book_id>")
+   api.add_resource(EditReview, "/edit/review")
+   api.add_resource(GetReview, "/get/review/<book_id>")
+   api.add_resource(DeleteReview, "/delete/review/<book_id>")
 
    api.add_resource(GetReadings, "/get/readings")
    api.add_resource(GetReading, "/get/reading/<reading_id>")

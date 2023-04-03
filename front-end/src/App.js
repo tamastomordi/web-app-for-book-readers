@@ -14,6 +14,8 @@ import './styles/_global.scss';
 import RedirectRoute from './layouts/RedirectRoute';
 import Author from './pages/Author';
 import User from './pages/User';
+import Header from './layouts/Header';
+import BookSearch from './pages/BookSearch';
 
 const App = () => {
    const [auth, setAuth] = useRecoilState(authState);
@@ -30,6 +32,7 @@ const App = () => {
 
    return (
       <div className="App">
+         <Header />
          <Routes>
             <Route
                path="/"
@@ -74,6 +77,7 @@ const App = () => {
             <Route path="/book/:bookId" element={<Book />} />
             <Route path="/author/:authorId" element={<Author />} />
             <Route path="/user/:userId" element={<User />} />
+            <Route path="/books" element={<BookSearch />} />
             <Route path="*" element={<NoPage />} />
          </Routes>
       </div>

@@ -11,6 +11,10 @@ import BookList from '../layouts/BookList';
 import { PulseLoader } from 'react-spinners';
 import '../styles/pages/User.scss';
 import ReadingList from '../layouts/ReadingList';
+import IconButton from '../components/IconButton';
+import { AiFillEdit } from 'react-icons/ai';
+import { RiMessage3Fill } from 'react-icons/ri';
+import { IoMdAddCircle } from 'react-icons/io';
 
 const User = () => {
    const { userId } = useParams();
@@ -22,6 +26,7 @@ const User = () => {
    useEffect(() => {
       getUser(userId)
          .then((data) => {
+            console.log(data.user);
             setUser(data.user);
             setFavorites(data.favorites);
             setReadings(data.readings);
@@ -41,19 +46,72 @@ const User = () => {
       <div className="User">
          <div className="container">
             <div className="card -wide">
-               {user.user_img && (
-                  <img
-                     className="user-img"
-                     alt="Profilkép"
-                     src={`data:;base64,${user.user_img}`}
-                  />
-               )}
-               <h2 className="username">{user.username}</h2>
-               <h3>Aktuális olvasások</h3>
+               <div className="flex">
+                  {user.user_img && (
+                     <img
+                        className="user-img"
+                        alt="Profilkép"
+                        src={`data:;base64,${user.user_img}`}
+                     />
+                  )}
+                  <div className="details">
+                     <h2 className="username">{user.username}</h2>
+                     {user.full_name && (
+                        <p>
+                           <span className="label">Valódi név: </span>
+                           {user.full_name}
+                        </p>
+                     )}
+                     {user.location && (
+                        <p>
+                           <span className="label">Lakhely: </span>
+                           {user.location}
+                        </p>
+                     )}
+                     {user.studies && (
+                        <p>
+                           <span className="label">Iskolák: </span>
+                           {user.studies}
+                        </p>
+                     )}
+                     {user.job && (
+                        <p>
+                           <span className="label">Foglalkozás: </span>
+                           {user.job}
+                        </p>
+                     )}
+                     {user.bio && (
+                        <p>
+                           <span className="label">Bemutatkozás:</span>
+                           <br />
+                           {user.bio}
+                        </p>
+                     )}
+                     <div className="panel">
+                        <IconButton
+                           className="read"
+                           text={'Barátnak jelölés'}
+                           icon={<IoMdAddCircle />}
+                        ></IconButton>
+                        <IconButton
+                           className="read"
+                           text={'Üzenet'}
+                           icon={<RiMessage3Fill />}
+                        ></IconButton>
+                        <IconButton
+                           className="read"
+                           text={'Adatok szerkesztése'}
+                           icon={<AiFillEdit />}
+                        ></IconButton>
+                     </div>
+                  </div>
+               </div>
+
+               <h2>Aktuális olvasások</h2>
                <ReadingList readings={readings} />
-               <h3>Kedvenc könyvek</h3>
+               <h2>Kedvenc könyvek</h2>
                <BookList books={favorites} />
-               <h3>Értékelések</h3>
+               <h2>Értékelések</h2>
             </div>
          </div>
       </div>

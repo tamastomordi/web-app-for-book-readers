@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { reviewsState } from '../recoil/atoms/Review';
 import { getReviews } from '../api/review';
 import { Link } from 'react-router-dom';
@@ -7,15 +7,17 @@ import '../styles/layouts/ReviewList.scss';
 import user_img from '../assets/user_img.svg';
 import { BsStarFill } from 'react-icons/bs';
 import calculateTime from '../utils/calculateTime';
+import { modalsState } from '../recoil/atoms/Book';
 
 const ReviewList = ({ bookId }) => {
    let [reviews, setReviews] = useRecoilState(reviewsState);
+   let modals = useRecoilValue(modalsState);
 
    useEffect(() => {
       getReviews(bookId)
          .then((data) => setReviews(data.reviews))
          .catch((error) => console.log(error));
-   }, [bookId, setReviews]);
+   }, [bookId, setReviews, modals]);
 
    return (
       <div className="ReviewList">
@@ -32,21 +34,11 @@ const ReviewList = ({ bookId }) => {
                   </Link>
                   <p className="datetime">{calculateTime(review.datetime)}</p>
                   <p className="rating">
-                     <BsStarFill
-                        className={5 % review.rating < 5 && 'checked'}
-                     />
-                     <BsStarFill
-                        className={5 % review.rating < 4 && 'checked'}
-                     />
-                     <BsStarFill
-                        className={5 % review.rating < 3 && 'checked'}
-                     />
-                     <BsStarFill
-                        className={5 % review.rating < 2 && 'checked'}
-                     />
-                     <BsStarFill
-                        className={5 % review.rating < 1 && 'checked'}
-                     />
+                     <BsStarFill className={review.rating >= 1 && 'checked'} />
+                     <BsStarFill className={review.rating >= 2 && 'checked'} />
+                     <BsStarFill className={review.rating >= 3 && 'checked'} />
+                     <BsStarFill className={review.rating >= 4 && 'checked'} />
+                     <BsStarFill className={review.rating >= 5 && 'checked'} />
                   </p>
                </div>
 

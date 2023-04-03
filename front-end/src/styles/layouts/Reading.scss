@@ -4,9 +4,12 @@
 
    .book {
       max-width: 5rem;
+
+      img {
+         border-radius: 0.5rem 0;
+      }
    }
 
-   .authors,
    .title {
       font-weight: bold;
    }

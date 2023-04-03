@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
 
-const Welcome = ({ username }) => {
+const Welcome = ({ userId, username }) => {
    return (
       <div className="Welcome">
          <h1>
-            Üdvözöllek újra itt, <Link to="/profile">{username}</Link>!
+            Üdvözlünk újra itt, <Link to={'/user/' + userId}>{username}</Link>!
          </h1>
       </div>
    );

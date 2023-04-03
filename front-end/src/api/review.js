@@ -18,3 +18,21 @@ export const addReview = async (bookId, rating, reviewText, datetime) => {
       .catch((error) => console.log(error));
    return response.data;
 };
+
+export const editReview = async (bookId, rating, reviewText) => {
+   const response = await axios
+      .put('/edit/review', {
+         book_id: bookId,
+         rating,
+         review_text: reviewText
+      })
+      .catch((error) => console.log(error));
+   return response.data;
+};
+
+export const deleteReview = async (bookId) => {
+   const response = await axios
+      .delete('/delete/review/' + bookId)
+      .catch((error) => console.log(error));
+   return response.data;
+};

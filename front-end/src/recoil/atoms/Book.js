@@ -25,9 +25,9 @@ export const readingState = atom({
    default: false
 });
 
-export const reviewedState = atom({
-   key: 'reviewedState',
-   default: false
+export const reviewState = atom({
+   key: 'reviewState',
+   default: null
 });
 
 export const numberOfLikesState = atom({

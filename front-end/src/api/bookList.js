@@ -1,9 +1,11 @@
 import axios from './axios';
 
-export const getBooks = async () => {
-   const response = await axios.get('/get/books').catch((error) => {
-      console.log(error);
-   });
+export const getBooks = async (searchTerm) => {
+   const response = await axios
+      .get('/get/books', { params: { searchTerm: searchTerm } })
+      .catch((error) => {
+         console.log(error);
+      });
    return response.data;
 };
 

@@ -11,9 +11,19 @@ const Reading = ({ reading }) => {
             />
          </div>
          <div className="details">
-            <p className="authors">{reading.book.authors[0].name}:</p>
-            <p className="title">{reading.book.title}</p>
-            <p>Olvasás kezdete: {new Date(reading.start).toLocaleString()}</p>
+            <p className="title">
+               {reading.book.authors[0].name}: {reading.book.title}
+            </p>
+            <p>
+               {new Date(reading.start).toLocaleString('hu-HU', {
+                  year: 'numeric',
+                  month: 'short',
+                  day: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit'
+               })}{' '}
+               –
+            </p>
          </div>
       </div>
    );

@@ -16,14 +16,22 @@ const Header = () => {
                   <p>Könyvek.</p>
                </Link>
                <nav>
-                  <ul>
-                     <li>
-                        <Link to="/auth/login">Bejelentkezés</Link>
-                     </li>
-                     <li>
-                        <Link to="/auth/signup">Regisztráció</Link>
-                     </li>
-                  </ul>
+                  {auth.user ? (
+                     <ul>
+                        <li>
+                           <Link to="/auth/logout">Kijelentkezés</Link>
+                        </li>
+                     </ul>
+                  ) : (
+                     <ul>
+                        <li>
+                           <Link to="/auth/login">Bejelentkezés</Link>
+                        </li>
+                        <li>
+                           <Link to="/auth/signup">Regisztráció</Link>
+                        </li>
+                     </ul>
+                  )}
                </nav>
             </div>
          </div>

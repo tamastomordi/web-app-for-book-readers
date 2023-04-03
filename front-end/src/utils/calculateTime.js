@@ -7,7 +7,7 @@ const calculateTime = (datetime) => {
    const month = days / 30;
    const years = days / 365;
 
-   if (minutes < 60) return Math.round(seconds) + ' másodperce';
+   if (seconds < 60) return Math.round(seconds) + ' másodperce';
    else if (minutes < 60) return Math.round(minutes) + ' perce';
    else if (hours < 24) return Math.round(hours) + ' órája';
    else if (days < 30) return Math.round(days) + ' napja';

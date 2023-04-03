@@ -1,9 +1,6 @@
-import Header from '../layouts/Header';
-
 const Home = () => {
    return (
       <div className="Home">
-         <Header />
          <div className="container">
             <div className="card -wide">
                <h1>Minimalista közösségi platform könyvolvasók számára.</h1>

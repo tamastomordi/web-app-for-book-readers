@@ -5,7 +5,7 @@ export const bookListState = atom({
    default: []
 });
 
-export const searchState = atom({
-   key: 'searchState',
-   default: {}
+export const searchTermState = atom({
+   key: 'searchTermState',
+   default: ''
 });

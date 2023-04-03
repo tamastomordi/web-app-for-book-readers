@@ -53,9 +53,9 @@ export const isReading = async (bookId) => {
    return response.data;
 };
 
-export const isReviewed = async (bookId) => {
+export const getReview = async (bookId) => {
    const response = await axios
-      .get('/isreviewed/' + bookId)
+      .get('/get/review/' + bookId)
       .catch((error) => console.log(error));
    return response.data;
 };
