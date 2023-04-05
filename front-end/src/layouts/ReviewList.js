@@ -7,7 +7,7 @@ import '../styles/layouts/ReviewList.scss';
 import user_img from '../assets/user_img.svg';
 import { BsStarFill } from 'react-icons/bs';
 import calculateTime from '../utils/calculateTime';
-import { modalsState } from '../recoil/atoms/Book';
+import { modalsState } from '../recoil/atoms/Modals';
 
 const ReviewList = ({ bookId }) => {
    let [reviews, setReviews] = useRecoilState(reviewsState);

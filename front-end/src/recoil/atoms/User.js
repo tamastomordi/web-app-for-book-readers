@@ -14,3 +14,15 @@ export const favoritesState = atom({
    key: 'favoritesState',
    default: []
 });
+
+export const profileFormState = atom({
+   key: 'profileFormState',
+   default: {
+      full_name: '',
+      location: '',
+      studies: '',
+      job: '',
+      bio: '',
+      gender: ''
+   }
+});

@@ -15,18 +15,17 @@ import {
    likedState,
    readingState,
    reviewState,
-   numberOfLikesState,
-   modalsState
+   numberOfLikesState
 } from '../recoil/atoms/Book';
+import { modalsState } from '../recoil/atoms/Modals';
 import IconButton from '../components/IconButton';
 import '../styles/pages/Book.scss';
 import { FaHeart } from 'react-icons/fa';
 import { BsBookmarkPlusFill, BsStarFill } from 'react-icons/bs';
 import Badge from '../components/Badge';
-import ReviewModal from '../layouts/ReviewModal';
+import ReviewModal from '../layouts/modals/ReviewModal';
 import ReviewList from '../layouts/ReviewList';
 import { PulseLoader } from 'react-spinners';
-import ReadingModal from '../layouts/ReadingModal';
 import { addReading, endReading } from '../api/reading';
 
 const Book = () => {
@@ -166,14 +165,6 @@ const Book = () => {
                review={review}
                onClose={() => {
                   setModals({ ...modals, showReviewModal: false });
-               }}
-            />
-         )}
-         {modals.showReadingModal && (
-            <ReadingModal
-               bookId={bookId}
-               onClose={() => {
-                  setModals({ ...modals, showReadingModal: false });
                }}
             />
          )}

@@ -1,11 +1,11 @@
-import Modal from '../components/Modal';
-import '../styles/layouts/ReviewModal.scss';
-import StarRating from '../components/StarRating';
-import { addReview, editReview, deleteReview } from '../api/review';
+import Modal from '../../components/Modal';
+import '../../styles/layouts/ReviewModal.scss';
+import StarRating from '../../components/StarRating';
+import { addReview, editReview, deleteReview } from '../../api/review';
 import { useRecoilState, useResetRecoilState } from 'recoil';
-import { reviewFormState } from '../recoil/atoms/Review';
+import { reviewFormState } from '../../recoil/atoms/Review';
 import { useEffect } from 'react';
-import { reviewState } from '../recoil/atoms/Book';
+import { reviewState } from '../../recoil/atoms/Book';
 
 const ReviewModal = ({ bookId, onClose }) => {
    const [reviewForm, setReviewForm] = useRecoilState(reviewFormState);

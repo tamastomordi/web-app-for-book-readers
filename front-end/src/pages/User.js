@@ -15,25 +15,28 @@ import IconButton from '../components/IconButton';
 import { AiFillEdit } from 'react-icons/ai';
 import { RiMessage3Fill } from 'react-icons/ri';
 import { IoMdAddCircle } from 'react-icons/io';
+import { Link } from 'react-router-dom';
+import EditProfileModal from '../layouts/modals/EditProfileModal';
+import { modalsState } from '../recoil/atoms/Modals';
 
 const User = () => {
    const { userId } = useParams();
    const [user, setUser] = useRecoilState(userState);
    const [readings, setReadings] = useRecoilState(readingListState);
    const [favorites, setFavorites] = useRecoilState(favoritesState);
+   const [modals, setModals] = useRecoilState(modalsState);
    const resetUser = useResetRecoilState(userState);
 
    useEffect(() => {
       getUser(userId)
          .then((data) => {
-            console.log(data.user);
             setUser(data.user);
             setFavorites(data.favorites);
             setReadings(data.readings);
          })
          .catch((error) => console.log(error));
       return () => resetUser;
-   }, [userId, setUser, setFavorites, setReadings, resetUser]);
+   }, [userId, setUser, setFavorites, setReadings, resetUser, modals]);
 
    if (!user)
       return (
@@ -102,18 +105,28 @@ const User = () => {
                            className="read"
                            text={'Adatok szerkesztése'}
                            icon={<AiFillEdit />}
+                           onClick={() =>
+                              setModals({ ...modals, showProfileModal: true })
+                           }
                         ></IconButton>
                      </div>
                   </div>
                </div>
 
-               <h2>Aktuális olvasások</h2>
+               <h2 className="section-title">Aktuális olvasások</h2>
                <ReadingList readings={readings} />
-               <h2>Kedvenc könyvek</h2>
+               <Link
+                  className="link"
+                  to={'/user/' + user.user_id + '/readings'}
+               >
+                  Összes olvasás megtekintése
+               </Link>
+               <h2 className="section-title">Kedvenc könyvek</h2>
                <BookList books={favorites} />
-               <h2>Értékelések</h2>
+               <h2 className="section-title">Értékelések</h2>
             </div>
          </div>
+         {modals.showProfileModal && <EditProfileModal />}
       </div>
    );
 };
