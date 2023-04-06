@@ -5,9 +5,11 @@ from ..models.UserModel import UserModel
 from ..models.LikeModel import LikeModel
 from ..models.ReadingModel import ReadingModel
 from ..models.BookModel import BookModel
+from ..models.ReviewModel import ReviewModel
 from ..schemas.UserSchema import user_schema, users_schema
 from ..schemas.BookSchema import books_schema
 from ..schemas.LikeSchema import likes_schema
+from ..schemas.ReviewSchema import reviews_schema
 from ..schemas.ReadingSchema import readings_schema
 from ..common.auth import token_required
 from ..common.allowed_file import allowed_file, get_extension
@@ -16,12 +18,14 @@ from ..common.get_image import get_image
 class GetUserById(Resource):
    def get(self, user_id):
       user = UserModel.query.filter_by(user_id=user_id).first()
-      favorites = BookModel.query.join(LikeModel).filter_by(user_id=user_id).all()
-      readings = ReadingModel.query.filter_by(user_id=user_id, end=None).all()
+      favorites = BookModel.query.join(LikeModel).filter_by(user_id=user_id)
+      readings = ReadingModel.query.filter_by(user_id=user_id, end=None).order_by(ReadingModel.start.desc())
+      reviews = ReviewModel.query.filter_by(user_id=user_id).order_by(ReviewModel.datetime.desc())
       user = user_schema.dump(user)
       favorites = books_schema.dump(favorites)
       readings = readings_schema.dump(readings)
-      return {'user': user, 'favorites': favorites, 'readings': readings}, 200
+      reviews = reviews_schema.dump(reviews)
+      return {'user': user, 'favorites': favorites, 'readings': readings, 'reviews': reviews}, 200
 
 class GetUserByEmail(Resource):
    def get(self, email):
@@ -55,6 +59,7 @@ class UploadUserImg(Resource):
       self.reqparse = reqparse.RequestParser()
       self.reqparse.add_argument('user_img', type=werkzeug.datastructures.FileStorage, location='files')
       self.reqparse.add_argument('user_id', location='form')
+      super(UploadUserImg, self).__init__()
 
    def post(self):
       FOLDER = './src/img/user_images'
@@ -78,3 +83,26 @@ class DeleteUser(Resource):
       db.session.delete(user)
       db.session.commit()
       return {'message': 'User successfully deleted'}, 200
+
+class EditUser(Resource):
+   def __init__(self):
+      self.reqparse = reqparse.RequestParser()
+      self.reqparse.add_argument('full_name')
+      self.reqparse.add_argument('location')
+      self.reqparse.add_argument('studies')
+      self.reqparse.add_argument('job')
+      self.reqparse.add_argument('bio')
+      super(EditUser, self).__init__()
+
+   @token_required
+   def put(current_user, self):      
+      args = self.reqparse.parse_args()
+      user = UserModel.query.filter_by(user_id=current_user.user_id).first()
+      user.full_name = args['full_name']
+      user.location = args['location']      
+      user.studies = args['studies']      
+      user.job = args['job']      
+      user.bio = args['bio']    
+      db.session.commit()
+      user = user_schema.dump(user)
+      return {'user': user}, 200

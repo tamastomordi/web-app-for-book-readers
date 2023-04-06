@@ -18,12 +18,15 @@ import { IoMdAddCircle } from 'react-icons/io';
 import { Link } from 'react-router-dom';
 import EditProfileModal from '../layouts/modals/EditProfileModal';
 import { modalsState } from '../recoil/atoms/Modals';
+import ReviewList from '../layouts/ReviewList';
+import { reviewsState } from '../recoil/atoms/Review';
 
 const User = () => {
    const { userId } = useParams();
    const [user, setUser] = useRecoilState(userState);
    const [readings, setReadings] = useRecoilState(readingListState);
    const [favorites, setFavorites] = useRecoilState(favoritesState);
+   const [reviews, setReviews] = useRecoilState(reviewsState);
    const [modals, setModals] = useRecoilState(modalsState);
    const resetUser = useResetRecoilState(userState);
 
@@ -33,10 +36,19 @@ const User = () => {
             setUser(data.user);
             setFavorites(data.favorites);
             setReadings(data.readings);
+            setReviews(data.reviews);
          })
          .catch((error) => console.log(error));
       return () => resetUser;
-   }, [userId, setUser, setFavorites, setReadings, resetUser, modals]);
+   }, [
+      userId,
+      setUser,
+      setFavorites,
+      setReadings,
+      setReviews,
+      resetUser,
+      modals
+   ]);
 
    if (!user)
       return (
@@ -124,6 +136,7 @@ const User = () => {
                <h2 className="section-title">Kedvenc könyvek</h2>
                <BookList books={favorites} />
                <h2 className="section-title">Értékelések</h2>
+               <ReviewList reviews={reviews} />
             </div>
          </div>
          {modals.showProfileModal && <EditProfileModal />}

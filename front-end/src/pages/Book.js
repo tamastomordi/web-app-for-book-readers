@@ -27,6 +27,8 @@ import ReviewModal from '../layouts/modals/ReviewModal';
 import ReviewList from '../layouts/ReviewList';
 import { PulseLoader } from 'react-spinners';
 import { addReading, endReading } from '../api/reading';
+import { reviewsState } from '../recoil/atoms/Review';
+import { getReviews } from '../api/review';
 
 const Book = () => {
    const { bookId } = useParams();
@@ -35,6 +37,7 @@ const Book = () => {
    let [liked, setLiked] = useRecoilState(likedState);
    let [reading, setReading] = useRecoilState(readingState);
    let [review, setReview] = useRecoilState(reviewState);
+   let [reviews, setReviews] = useRecoilState(reviewsState);
    let [modals, setModals] = useRecoilState(modalsState);
    let resetBook = useResetRecoilState(bookState);
 
@@ -53,8 +56,19 @@ const Book = () => {
             if (data.review) setReview(data.review);
          })
          .catch((error) => console.log(error));
+      getReviews(bookId)
+         .then((data) => setReviews(data.reviews))
+         .catch((error) => console.log(error));
       return () => resetBook();
-   }, [bookId, setBook, setLiked, resetBook, setReading, setReview]);
+   }, [
+      bookId,
+      setBook,
+      setLiked,
+      resetBook,
+      setReading,
+      setReview,
+      setReviews
+   ]);
 
    useEffect(() => {
       getNumberOfLikes(bookId)
@@ -156,7 +170,8 @@ const Book = () => {
                      </div>
                   </div>
                </div>
-               <ReviewList bookId={bookId} />
+               <h2>Értékelések</h2>
+               <ReviewList reviews={reviews} />
             </div>
          </div>
          {modals.showReviewModal && (

@@ -4,7 +4,7 @@ from flask import Flask
 from .common.extensions import api, db, ma, cors
 
 from .resources.Auth import Login, Signup, Me
-from .resources.User import GetUsers, GetUserById, GetUserByUsername, GetUserByEmail, GetUserImg, UploadUserImg
+from .resources.User import GetUsers, GetUserById, GetUserByUsername, GetUserByEmail, GetUserImg, UploadUserImg, EditUser
 from .resources.Book import GetBooks, GetBookById, GetCoverImg, UploadCoverImg, GetBooksLikedByUser, AddBook, GetBooksByAuthor
 from .resources.Author import GetAuthors, GetAuthor, GetAuthorImg, AddAuthor, UploadAuthorImg
 from .resources.Friendship import GetFriendship, RequestFriendship, ConfirmFriendship
@@ -29,6 +29,7 @@ def create_app():
    api.add_resource(GetUserByEmail, "/get/user/email/<email>")
    api.add_resource(GetUserImg, "/get/user/user_img/<user_id>")
    api.add_resource(UploadUserImg, "/upload/user/user_img")
+   api.add_resource(EditUser, "/edit/user")
 
    api.add_resource(GetBooks, "/get/books")
    api.add_resource(GetBooksByAuthor, "/get/books/author/<author_id>")

@@ -18,7 +18,7 @@ class GetReading(Resource):
 
 class GetReadingsByUserId(Resource):
    def get(self, user_id):
-      readings = ReadingModel.query.filter_by(user_id=user_id).all()
+      readings = ReadingModel.query.filter_by(user_id=user_id).order_by(ReadingModel.end.desc(), ReadingModel.start.desc()).all()
       results = readings_schema.dump(readings)
       return {'readings': results}, 200
 

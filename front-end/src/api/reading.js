@@ -19,3 +19,10 @@ export const endReading = async (bookId, end) => {
       .catch((error) => console.log(error));
    return response.data;
 };
+
+export const getReadings = async (userId) => {
+   const response = await axios
+      .get('/get/readings/user_id/' + userId)
+      .catch((error) => console.log(error));
+   return response.data;
+};

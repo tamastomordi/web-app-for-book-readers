@@ -21,8 +21,16 @@ const Reading = ({ reading }) => {
                   day: 'numeric',
                   hour: '2-digit',
                   minute: '2-digit'
-               })}{' '}
-               –
+               })}
+               {' – '}
+               {reading.end &&
+                  new Date(reading.end).toLocaleString('hu-Hu', {
+                     year: 'numeric',
+                     month: 'short',
+                     day: 'numeric',
+                     hour: '2-digit',
+                     minute: '2-digit'
+                  })}
             </p>
          </div>
       </div>
