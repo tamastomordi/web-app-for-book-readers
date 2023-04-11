@@ -1,0 +1,21 @@
+.Notification {
+   margin-bottom: 1rem;
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   background-color: var(--clr-primary-200);
+   padding: 1rem 1.5rem;
+   border-radius: 1rem 0 1rem 0;
+
+   .title {
+      display: inline-block;
+
+      font-weight: bold;
+   }
+
+   .datetime {
+      display: inline-block;
+      margin-left: 0.5rem;
+      color: var(--clr-neutral-300);
+   }
+}

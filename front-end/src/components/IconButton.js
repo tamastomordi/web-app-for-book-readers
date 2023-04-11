@@ -1,11 +1,11 @@
 import '../styles/components/IconButton.scss';
 
-const IconButton = ({ icon, text, className, tooltip, children, onClick }) => {
+const IconButton = ({ icon, text, className, onClick }) => {
    return (
       <button className={'IconButton ' + className} onClick={onClick}>
          <div className="content">
-            <span className="icon">{icon}</span>
-            <span className="text">{text}</span>
+            {icon && <span className="icon">{icon}</span>}
+            {text && <span className="text">{text}</span>}
          </div>
       </button>
    );

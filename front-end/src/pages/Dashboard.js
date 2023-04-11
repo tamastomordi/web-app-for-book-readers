@@ -3,6 +3,7 @@ import { authState } from '../recoil/atoms/Auth';
 import Welcome from '../layouts/Welcome';
 import '../styles/pages/Dashboard.scss';
 import Stats from '../layouts/Stats';
+import NewNotificationList from '../layouts/NewNotificationList';
 
 const Dashboard = () => {
    const auth = useRecoilValue(authState);
@@ -16,6 +17,7 @@ const Dashboard = () => {
                   username={auth.user.username}
                />
                <Stats />
+               <NewNotificationList />
             </div>
          </div>
       </div>

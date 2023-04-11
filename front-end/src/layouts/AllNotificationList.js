@@ -1,21 +1,21 @@
-import { getNewNotifications } from '../api/notification';
+import { getAllNotifications } from '../api/notification';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import { notificationsState } from '../recoil/atoms/Notification';
 import { useEffect } from 'react';
 
-const NewNotifications = () => {
+const AllNotificationList = () => {
    const [notifications, setNotifications] = useRecoilState(notificationsState);
    const resetNotifications = useResetRecoilState(notificationsState);
 
    useEffect(() => {
-      getNewNotifications()
+      getAllNotifications()
          .then((data) => setNotifications(data.notifications))
          .catch((error) => console.log(error));
       return () => resetNotifications();
    }, [setNotifications, resetNotifications]);
 
    return (
-      <div className="NewNotifications">
+      <div className="AllNotifications">
          {notifications.map((notification) => {
             return <Notification notification={notification} />;
          })}
@@ -23,4 +23,4 @@ const NewNotifications = () => {
    );
 };
 
-export default NewNotifications;
+export default AllNotificationList;
