@@ -87,3 +87,17 @@ CREATE TABLE like_(
 	CONSTRAINT fk_book_ FOREIGN KEY(book_id_) REFERENCES book_(book_id_),
 	CONSTRAINT pk_like_ PRIMARY KEY (user_id_, book_id_)
 );
+
+CREATE TABLE notification_(
+	notification_id_ SERIAL PRIMARY KEY,
+	title_ VARCHAR(255) NOT NULL,
+	text_ TEXT,
+	datetime_ TIMESTAMP WITH TIME ZONE NOT NULL,
+	active_ BOOLEAN NOT NULL DEFAULT '1',
+	owner_id_ INT NOT NULL,
+	user_id_ INT,
+	book_id_ INT,
+	CONSTRAINT fk_owner_ FOREIGN KEY(owner_id_) REFERENCES user_(user_id_),
+	CONSTRAINT fk_user_ FOREIGN KEY(user_id_) REFERENCES user_(user_id_),
+	CONSTRAINT fk_book_ FOREIGN KEY(book_id_) REFERENCES book_(book_id_)
+);
