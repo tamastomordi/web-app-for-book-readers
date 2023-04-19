@@ -11,7 +11,7 @@ from .resources.Friendship import GetFriendship, RequestFriendship, ConfirmFrien
 from .resources.Review import GetReviews, GetReviewsByBookId, GetReviewsByUserId, AddReview, GetReview, EditReview, DeleteReview
 from .resources.Reading import GetReadings, GetReading, GetReadingsByUserId, GetReadingsByBookId, AddReading, IsReading, EndReading
 from .resources.Like import Like, Dislike, GetNumberOfLikes, IsLiked
-from .resources.Notification import GetAllNotifications, GetActiveNotifications, AddNotification
+from .resources.Notification import GetAllNotifications, GetActiveNotifications, AddNotification, DeactivateNotification
 
 load_dotenv()
 
@@ -74,6 +74,7 @@ def create_app():
 
    api.add_resource(GetAllNotifications, "/get/notifications/all")
    api.add_resource(GetActiveNotifications, "/get/notifications/active")
+   api.add_resource(DeactivateNotification, "/deactivate/notification")
    api.add_resource(AddNotification, "/add/notification")
 
    api.init_app(app)

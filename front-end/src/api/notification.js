@@ -14,11 +14,11 @@ export const getNewNotifications = async () => {
    return response.data;
 };
 
-/*
-export const markNotificationAsRead = async (notificationId) => {
+export const deactivateNotification = async (notificationId) => {
    const response = await axios
-      .put('/mark/notification/' + notificationId)
+      .put('/deactivate/notification', {
+         notification_id: notificationId
+      })
       .catch((error) => console.log(error));
    return response.data;
 };
-*/

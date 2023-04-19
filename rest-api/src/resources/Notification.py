@@ -33,3 +33,17 @@ class AddNotification(Resource):
       db.session.add(new_notification)
       db.session.commit()
       return {'message': 'Notification successfully added'}, 201
+
+class DeactivateNotification(Resource):
+   def __init__(self):
+      self.reqparse = reqparse.RequestParser()
+      self.reqparse.add_argument('notification_id')
+      super(DeactivateNotification, self).__init__()
+
+   @token_required
+   def put(current_user, self):
+      args = self.reqparse.parse_args()
+      notification = NotificationModel.query.filter_by(notification_id=args['notification_id'], owner_id=current_user.user_id, active=True).first()
+      notification.active = False
+      db.session.commit()
+      return {'message': 'Notification successfully deactivated'}, 200
