@@ -1,11 +1,22 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ImBooks } from 'react-icons/im';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { authState } from '../recoil/atoms/Auth';
 import '../styles/layouts/Header.scss';
+import { logout } from '../api/auth';
 
 const Header = () => {
-   const auth = useRecoilValue(authState);
+   const [auth, setAuth] = useRecoilState(authState);
+   const navigate = useNavigate();
+
+   const onLogoutClick = () => {
+      logout()
+         .then(() => {
+            setAuth({ user: null });
+            navigate('/home');
+         })
+         .catch((error) => console.log(error));
+   };
 
    return (
       <div className="Header">
@@ -19,7 +30,7 @@ const Header = () => {
                   {auth.user ? (
                      <ul>
                         <li>
-                           <Link to="/auth/logout">Kijelentkezés</Link>
+                           <Link onClick={onLogoutClick}>Kijelentkezés</Link>
                         </li>
                      </ul>
                   ) : (
