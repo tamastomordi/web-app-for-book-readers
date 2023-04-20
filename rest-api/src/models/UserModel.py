@@ -9,7 +9,7 @@ class UserModel(db.Model):
    sign_up_date = db.Column('sign_up_date_', db.Date)
    full_name = db.Column('full_name_', db.String(255))
    birth_date = db.Column('birth_date_', db.Date)
-   user_img_file = db.Column('user_img_file_', db.String(255))
+   user_img = db.Column('user_img_', db.Text)
    location = db.Column('location_', db.String(255))
    studies = db.Column('studies_', db.String(255))
    job = db.Column('job_', db.String(255))

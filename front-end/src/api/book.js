@@ -9,9 +9,7 @@ export const getBook = async (bookId) => {
 
 export const getCoverImg = async (bookId) => {
    const response = await axios
-      .get('/get/book/cover_img/' + bookId, {
-         responseType: 'arraybuffer'
-      })
+      .get('/get/book/cover_img/' + bookId)
       .catch((error) => console.log(error));
    return response.data;
 };
@@ -56,6 +54,36 @@ export const isReading = async (bookId) => {
 export const getReview = async (bookId) => {
    const response = await axios
       .get('/get/review/' + bookId)
+      .catch((error) => console.log(error));
+   return response.data;
+};
+
+export const addBook = async ({ authorId, title, subtitle, description }) => {
+   const response = await axios
+      .post('/add/book', {
+         author_id: authorId,
+         title: title,
+         subtitle: subtitle,
+         description: description
+      })
+      .catch((error) => console.log(error));
+   return response.data;
+};
+
+export const uploadCoverImage = async (formData) => {
+   const response = await axios
+      .post('/upload/book/cover_img', formData, {
+         headers: {
+            'Content-Type': 'multipart/form-data'
+         }
+      })
+      .catch((error) => console.log(error));
+   return response.data;
+};
+
+export const deleteBook = async (bookId) => {
+   const response = await axios
+      .delete('/delete/book/' + bookId)
       .catch((error) => console.log(error));
    return response.data;
 };

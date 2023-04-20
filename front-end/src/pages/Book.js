@@ -15,7 +15,8 @@ import {
    likedState,
    readingState,
    reviewState,
-   numberOfLikesState
+   numberOfLikesState,
+   coverImgState
 } from '../recoil/atoms/Book';
 import { modalsState } from '../recoil/atoms/Modals';
 import IconButton from '../components/IconButton';
@@ -29,6 +30,7 @@ import { PulseLoader } from 'react-spinners';
 import { addReading, endReading } from '../api/reading';
 import { reviewsState } from '../recoil/atoms/Review';
 import { getReviews } from '../api/review';
+import { getCoverImg } from '../api/book';
 
 const Book = () => {
    const { bookId } = useParams();
@@ -40,6 +42,8 @@ const Book = () => {
    let [reviews, setReviews] = useRecoilState(reviewsState);
    let [modals, setModals] = useRecoilState(modalsState);
    let resetBook = useResetRecoilState(bookState);
+
+   let [image, setImage] = useRecoilState(coverImgState);
 
    useEffect(() => {
       getBook(bookId)
@@ -58,6 +62,11 @@ const Book = () => {
          .catch((error) => console.log(error));
       getReviews(bookId)
          .then((data) => setReviews(data.reviews))
+         .catch((error) => console.log(error));
+      getCoverImg(bookId)
+         .then((data) => {
+            setImage(data);
+         })
          .catch((error) => console.log(error));
       return () => resetBook();
    }, [
@@ -119,16 +128,16 @@ const Book = () => {
                      <img
                         className="cover-img"
                         alt="Borítókép"
-                        src={`data:;base64,${book.cover_img}`}
+                        src={`data:;base64,${image}`}
                      />
                   )}
                   <div className="details">
                      <h2>
                         <Link
-                           to={'/author/' + book.authors[0].author_id}
+                           to={'/author/' + book.author.author_id}
                            className="author"
                         >
-                           {book.authors[0].name}:
+                           {book.author.name}:
                         </Link>
                         <span className="title"> {book.title}</span>
                      </h2>
@@ -170,8 +179,10 @@ const Book = () => {
                      </div>
                   </div>
                </div>
-               <h2>Értékelések</h2>
-               <ReviewList reviews={reviews} />
+               <div className="reviews">
+                  <h2>Értékelések</h2>
+                  <ReviewList reviews={reviews} />
+               </div>
             </div>
          </div>
          {modals.showReviewModal && (

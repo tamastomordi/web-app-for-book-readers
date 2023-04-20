@@ -48,10 +48,10 @@ class GetUsers(Resource):
 
 class GetUserImg(Resource):
    def get(self, user_id):
-      FOLDER = 'img/user_images/'
+      FOLDER = './src/img/user_images/'
       user = UserModel.query.filter_by(user_id=user_id).first()
       if user and user.user_img:
-         return send_file(user.user_img), 200
+         return get_image(FOLDER + user.user_img), 200
       return {'error': 'Unsuccessful img get'}, 400 
 
 class UploadUserImg(Resource):

@@ -3,7 +3,7 @@ from flask_restful import Resource, reqparse
 import werkzeug
 from sqlalchemy import func
 from ..common.extensions import db
-from ..models.BookModel import BookModel, author_book
+from ..models.BookModel import BookModel
 from ..models.AuthorModel import AuthorModel
 from ..models.LikeModel import LikeModel
 from ..schemas.AuthorSchema import authors_schema
@@ -20,13 +20,14 @@ class GetBooks(Resource):
 
    def get(self):
       args = self.reqparse.parse_args()
-      books = BookModel.query.filter(func.lower(BookModel.title).contains(args['searchTerm'])).all()
+      books = BookModel.query.filter(func.lower(BookModel.title).contains(args['searchTerm']))
       results = books_schema.dump(books)
+      print(results)
       return {'books': results}, 200
 
 class GetBooksByAuthor(Resource):
    def get(self, author_id):
-      books = BookModel.query.join(author_book).join(AuthorModel).filter_by(author_id=author_id).all()
+      books = BookModel.query.filter_by(author_id=author_id).all()
       results = books_schema.dump(books)
       return {'books': results}, 200
 
@@ -43,25 +44,22 @@ class AddBook(Resource):
       self.reqparse.add_argument('title')
       self.reqparse.add_argument('subtitle')
       self.reqparse.add_argument('description')
-      self.reqparse.add_argument('published')
-      self.reqparse.add_argument('approved', type=bool)
-      self.reqparse.add_argument('authors', action='append')
+      self.reqparse.add_argument('author_id')
       super(AddBook, self).__init__()
 
    def post(self):
-         args = self.reqparse.parse_args()
-         new_book = BookModel(title=args['title'], subtitle=args['subtitle'], description=args['description'], published=args['published'], approved=args['approved'])
-         for author_id in args['authors']:
-            new_book.authors.append(AuthorModel.query.filter_by(author_id=author_id).first())
-         db.session.add(new_book)
-         db.session.commit()
-         return {'message': 'Book successfully created'}, 201
+      args = self.reqparse.parse_args()
+      new_book = BookModel(title=args['title'], subtitle=args['subtitle'], description=args['description'], approved=False, author_id=args['author_id'])
+      db.session.add(new_book)
+      db.session.commit()
+      return {'book_id': new_book.book_id}, 201
 
 class GetCoverImg(Resource):
    def get(self, book_id):
+      FOLDER = './src/img/book_covers/'
       book = BookModel.query.filter_by(book_id=book_id).first()
       if book and book.cover_img:
-         return send_file(book.cover_img), 200
+         return get_image(FOLDER + book.cover_img), 200
       return {'error': 'Unsuccessful img get'}, 400 
 
 class UploadCoverImg(Resource):
@@ -78,8 +76,7 @@ class UploadCoverImg(Resource):
       if book and cover_img and allowed_file(cover_img.filename):
          path = FOLDER+'/'+args['book_id']+'.'+get_extension(cover_img.filename)
          cover_img.save(path)
-         book.cover_img_file = args['book_id']+'.'+get_extension(cover_img.filename)
-         db.session.add(book)
+         book.cover_img = args['book_id']+'.'+get_extension(cover_img.filename)
          db.session.commit()
          return {'message': 'Cover img successfully added'}, 201
       return {'error': 'Unsuccessful img upload'}, 400
@@ -93,3 +90,12 @@ class GetBooksLikedByUser(Resource):
          books.append(book)
       results = books_schema.dump(books)
       return {'books': results}, 200
+
+class DeleteBook(Resource):
+   def delete(self, book_id):
+      book = BookModel.query.filter_by(book_id=book_id).first()
+      if not book:
+         return {'message': 'Book not found'}, 400
+      db.session.delete(book)
+      db.session.commit()
+      return {'message': 'Book successfully deleted'}, 200

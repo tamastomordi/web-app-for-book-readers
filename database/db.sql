@@ -35,12 +35,13 @@ CREATE TABLE friendship_(
 
 CREATE TABLE book_(
 	book_id_ SERIAL PRIMARY KEY,
-	title_ VARCHAR(255),
+	title_ VARCHAR(255) NOT NULL,
 	subtitle_ VARCHAR(255),
 	cover_img_path_ TEXT,
-	description_ TEXT,
-	published_ DATE,
-	approved_ BOOLEAN
+	description_ TEXT NOT NULL,
+	approved_ BOOLEAN NOT NULL,
+	author_id_ INT NOT NULL,
+	CONSTRAINT fk_author_ FOREIGN KEY(author_id_) REFERENCES author_(author_id_)
 );
 
 CREATE TABLE author_(
@@ -70,13 +71,6 @@ CREATE TABLE review_(
 	review_text_ TEXT,
 	datetime_ TIMESTAMP WITH TIME ZONE,
 	CONSTRAINT fk_user_ FOREIGN KEY(user_id_) REFERENCES user_(user_id_),
-	CONSTRAINT fk_book_ FOREIGN KEY(book_id_) REFERENCES book_(book_id_)
-);
-
-CREATE TABLE author_book_(
-	author_id_ INT,
-	book_id_ INT,
-	CONSTRAINT fk_author_ FOREIGN KEY(author_id_) REFERENCES author_(author_id_),
 	CONSTRAINT fk_book_ FOREIGN KEY(book_id_) REFERENCES book_(book_id_)
 );
 

@@ -1,0 +1,17 @@
+.authorsSearch {
+   margin-bottom: 0.75rem;
+
+   input {
+      padding: 0.5rem 0.75rem !important;
+      margin: 0;
+
+      &:focus {
+         outline-color: var(--clr-focus) !important;
+         border-radius: 0.25rem !important;
+      }
+   }
+}
+
+input {
+   display: block;
+}

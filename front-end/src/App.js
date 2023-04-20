@@ -17,6 +17,8 @@ import User from './pages/User';
 import Header from './layouts/Header';
 import BookSearch from './pages/BookSearch';
 import Readings from './pages/Readings';
+import AddBook from './pages/AddBook';
+import AddAuthor from './pages/AddAuthor';
 
 const App = () => {
    const [auth, setAuth] = useRecoilState(authState);
@@ -80,6 +82,8 @@ const App = () => {
             <Route path="/user/:userId" element={<User />} />
             <Route path="/user/:userId/readings" element={<Readings />} />
             <Route path="/books" element={<BookSearch />} />
+            <Route path="/book/add" element={<AddBook />} />
+            <Route path="/author/add" element={<AddAuthor />} />
             <Route path="*" element={<NoPage />} />
          </Routes>
       </div>

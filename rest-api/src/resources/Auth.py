@@ -47,7 +47,6 @@ class Me(Resource):
       return {'user': result}, 200
 
 class Logout(Resource):
-   @token_required
-   def get(current_user, self):
+   def get(self):
       header = {'Set-Cookie': 'token=; HttpOnly; Expires=0; Path=/'}
       return {'message': "Successful signout"}, 200, header

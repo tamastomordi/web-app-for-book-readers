@@ -1,18 +1,29 @@
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { getCoverImg } from '../api/book';
 import '../styles/layouts/Reading.scss';
 
 const Reading = ({ reading }) => {
+   const [image, setImage] = useState(null);
+
+   useEffect(() => {
+      getCoverImg(reading.book.book_id)
+         .then((data) => setImage(data))
+         .catch((error) => console.log(error));
+   }, []);
+
    return (
       <div className="Reading">
          <div className="book">
             <img
                className="cover-img"
                alt="Borítókép"
-               src={`data:;base64,${reading.book.cover_img}`}
+               src={`data:;base64,${image}`}
             />
          </div>
          <div className="details">
             <p className="title">
-               {reading.book.authors[0].name}: {reading.book.title}
+               {reading.book.author.name}: {reading.book.title}
             </p>
             <p>
                {new Date(reading.start).toLocaleString('hu-HU', {

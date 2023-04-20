@@ -11,13 +11,6 @@ const BookSearch = () => {
    const resetBooks = useResetRecoilState(bookListState);
 
    useEffect(() => {
-      getBooks()
-         .then((data) => setBooks(data.books))
-         .catch((error) => console.log(error));
-      return () => resetBooks();
-   }, [setBooks, resetBooks]);
-
-   useEffect(() => {
       let getData = setTimeout(() => {
          getBooks(searchTerm.toLowerCase())
             .then((data) => setBooks(data.books))

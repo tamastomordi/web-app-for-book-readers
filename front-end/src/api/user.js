@@ -19,3 +19,10 @@ export const editProfile = async (profileData) => {
       .catch((error) => console.log(error));
    return response.data;
 };
+
+export const getUserImg = async (userId) => {
+   const response = await axios
+      .get('/get/user/img/' + userId)
+      .catch((error) => console.log(error));
+   return response.data;
+};

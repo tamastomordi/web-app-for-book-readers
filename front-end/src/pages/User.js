@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
-import { getUser } from '../api/user';
+import { useEffect, useState } from 'react';
+import { getUser, getUserImg } from '../api/user';
 import { useParams } from 'react-router-dom';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import {
@@ -29,6 +29,7 @@ const User = () => {
    const [reviews, setReviews] = useRecoilState(reviewsState);
    const [modals, setModals] = useRecoilState(modalsState);
    const resetUser = useResetRecoilState(userState);
+   let [image, setImage] = useState(null);
 
    useEffect(() => {
       getUser(userId)
@@ -38,6 +39,9 @@ const User = () => {
             setReadings(data.readings);
             setReviews(data.reviews);
          })
+         .catch((error) => console.log(error));
+      getUserImg(userId)
+         .then((data) => setImage(data))
          .catch((error) => console.log(error));
       return () => resetUser;
    }, [
@@ -66,7 +70,7 @@ const User = () => {
                      <img
                         className="user-img"
                         alt="Profilkép"
-                        src={`data:;base64,${user.user_img}`}
+                        src={`data:;base64,${image}`}
                      />
                   )}
                   <div className="details">
