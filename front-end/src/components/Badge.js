@@ -4,8 +4,8 @@ const Badge = ({ icon, text, className }) => {
    return (
       <div className={'Stamp ' + className}>
          <div className="content">
-            <span className="icon">{icon}</span>
-            <span className="text">{text}</span>
+            {icon && <span className="icon">{icon}</span>}
+            {text && <span className="text">{text}</span>}
          </div>
       </div>
    );

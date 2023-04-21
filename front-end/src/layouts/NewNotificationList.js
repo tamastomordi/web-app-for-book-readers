@@ -29,6 +29,9 @@ const NewNotificationList = () => {
                );
             })}
          </div>
+         {notifications.length === 0 && (
+            <p className="empty">Nincs új értesítésed</p>
+         )}
          <Link to="/notifications">
             Összes korábbi értesítés megtekintése...
          </Link>

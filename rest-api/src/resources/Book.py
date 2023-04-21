@@ -20,10 +20,34 @@ class GetBooks(Resource):
 
    def get(self):
       args = self.reqparse.parse_args()
-      books = BookModel.query.filter(func.lower(BookModel.title).contains(args['searchTerm']))
+      books = BookModel.query.filter(func.lower(BookModel.title).contains(args['searchTerm']), BookModel.approved == True)
       results = books_schema.dump(books)
-      print(results)
       return {'books': results}, 200
+
+class GetUnapprovedBooks(Resource):
+   @token_required
+   def get(current_user, self):
+      if current_user.role == '1':
+         books = BookModel.query.filter(BookModel.approved == False)
+         results = books_schema.dump(books)
+         return {'books': results}, 200
+      return {'message': 'You don\'t have admin role.'}, 401
+
+class ApproveBook(Resource):
+   def __init__(self):
+      self.reqparse = reqparse.RequestParser()
+      self.reqparse.add_argument('book_id')
+      super(ApproveBook, self).__init__()
+
+   @token_required
+   def put(current_user, self):
+      args = self.reqparse.parse_args()
+      if current_user.role == '1':
+         book = BookModel.query.filter_by(book_id=args['book_id']).first()
+         book.approved = True
+         db.session.commit()
+         return {'message': 'Book approved'}, 200
+      return {'message': 'You don\'t have admin role.'}, 401
 
 class GetBooksByAuthor(Resource):
    def get(self, author_id):

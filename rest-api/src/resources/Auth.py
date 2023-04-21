@@ -19,7 +19,7 @@ class Signup(Resource):
    def post(self):
       args = self.reqparse.parse_args()
       hashed_password = generate_password_hash(args['password'], method='sha256')
-      new_user = UserModel(username=args['username'], email=args['email'], password_hash=hashed_password)
+      new_user = UserModel(username=args['username'], email=args['email'], password_hash=hashed_password, role='0')
       db.session.add(new_user)
       db.session.commit()
       return {'message': 'User successfully created'}, 201

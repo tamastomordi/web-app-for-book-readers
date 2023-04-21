@@ -9,16 +9,13 @@
       padding: 0.25rem 0.5rem;
       display: flex;
       align-items: center;
+      gap: 0.25rem;
 
       .icon {
          display: flex;
          align-items: center;
          justify-content: center;
          color: var(--clr-neutral-300);
-      }
-
-      .text {
-         margin-left: 0.25rem;
       }
    }
 
@@ -27,5 +24,12 @@
    }
    &.likes-stamp .icon {
       color: var(--clr-error);
+   }
+
+   &.red {
+      background-color: rgb(200, 0, 0);
+      color: var(--clr-neutral-100);
+      font-weight: normal;
+      margin-top: 0.25rem;
    }
 }

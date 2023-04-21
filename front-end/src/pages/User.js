@@ -20,6 +20,7 @@ import EditProfileModal from '../layouts/modals/EditProfileModal';
 import { modalsState } from '../recoil/atoms/Modals';
 import ReviewList from '../layouts/ReviewList';
 import { reviewsState } from '../recoil/atoms/Review';
+import Badge from '../components/Badge';
 
 const User = () => {
    const { userId } = useParams();
@@ -74,7 +75,12 @@ const User = () => {
                      />
                   )}
                   <div className="details">
-                     <h2 className="username">{user.username}</h2>
+                     <h2 className="username">
+                        <span>{user.username}</span>
+                        {user.role === '1' && (
+                           <Badge text="Admin" className="red" />
+                        )}
+                     </h2>
                      {user.full_name && (
                         <p>
                            <span className="label">Valódi név: </span>

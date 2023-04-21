@@ -5,7 +5,7 @@ from .common.extensions import api, db, ma, cors
 
 from .resources.Auth import Login, Signup, Me, Logout
 from .resources.User import GetUsers, GetUserById, GetUserByUsername, GetUserByEmail, GetUserImg, UploadUserImg, EditUser
-from .resources.Book import GetBooks, GetBookById, GetCoverImg, UploadCoverImg, GetBooksLikedByUser, AddBook, GetBooksByAuthor, DeleteBook
+from .resources.Book import GetBooks, GetBookById, GetCoverImg, UploadCoverImg, GetBooksLikedByUser, AddBook, GetBooksByAuthor, DeleteBook, GetUnapprovedBooks, ApproveBook
 from .resources.Author import GetAuthors, GetAuthor, GetAuthorImg, AddAuthor, UploadAuthorImg, DeleteAuthor
 from .resources.Friendship import GetFriendship, RequestFriendship, ConfirmFriendship
 from .resources.Review import GetReviews, GetReviewsByBookId, GetReviewsByUserId, AddReview, GetReview, EditReview, DeleteReview
@@ -41,6 +41,8 @@ def create_app():
    api.add_resource(GetBooksLikedByUser, "/get/liked_books/<user_id>")
    api.add_resource(AddBook, "/add/book")
    api.add_resource(DeleteBook, "/delete/book/<book_id>")
+   api.add_resource(GetUnapprovedBooks, "/get/books/unapproved")
+   api.add_resource(ApproveBook, "/approve/book")
 
    api.add_resource(GetAuthors, "/get/authors")
    api.add_resource(GetAuthor, "/get/author/<author_id>")

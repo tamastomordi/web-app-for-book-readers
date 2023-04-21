@@ -15,3 +15,4 @@ class UserModel(db.Model):
    job = db.Column('job_', db.String(255))
    bio = db.Column('bio_', db.Text)
    gender = db.Column('gender_', db.String(1))
+   role = db.Column('role_', db.String(1))

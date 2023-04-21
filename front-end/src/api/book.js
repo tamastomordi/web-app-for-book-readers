@@ -87,3 +87,12 @@ export const deleteBook = async (bookId) => {
       .catch((error) => console.log(error));
    return response.data;
 };
+
+export const approveBook = async (bookId) => {
+   const response = await axios
+      .put('/approve/book', {
+         book_id: bookId
+      })
+      .catch((error) => console.log(error));
+   return response.data;
+};

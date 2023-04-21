@@ -17,3 +17,10 @@ export const getBooksByAuthor = async (authorId) => {
       });
    return response.data;
 };
+
+export const getUnapprovedBooks = async () => {
+   const response = await axios.get('/get/books/unapproved').catch((error) => {
+      console.log(error);
+   });
+   return response.data;
+};
