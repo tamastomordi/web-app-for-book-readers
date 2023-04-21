@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getUser, getUserImg } from '../api/user';
 import { useParams } from 'react-router-dom';
-import { useRecoilState, useResetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import {
    userState,
    favoritesState,
@@ -21,6 +21,8 @@ import { modalsState } from '../recoil/atoms/Modals';
 import ReviewList from '../layouts/ReviewList';
 import { reviewsState } from '../recoil/atoms/Review';
 import Badge from '../components/Badge';
+import { authState } from '../recoil/atoms/Auth';
+import { requestFriendship } from '../api/friendship';
 
 const User = () => {
    const { userId } = useParams();
@@ -31,6 +33,7 @@ const User = () => {
    const [modals, setModals] = useRecoilState(modalsState);
    const resetUser = useResetRecoilState(userState);
    let [image, setImage] = useState(null);
+   const auth = useRecoilValue(authState);
 
    useEffect(() => {
       getUser(userId)
@@ -52,8 +55,15 @@ const User = () => {
       setReadings,
       setReviews,
       resetUser,
+      setImage,
       modals
    ]);
+
+   const request = () => {
+      requestFriendship(userId)
+         .then((data) => console.log(data))
+         .catch((error) => console.log(error));
+   };
 
    if (!user)
       return (
@@ -113,24 +123,31 @@ const User = () => {
                         </p>
                      )}
                      <div className="panel">
-                        <IconButton
-                           className="read"
-                           text={'Barátnak jelölés'}
-                           icon={<IoMdAddCircle />}
-                        ></IconButton>
-                        <IconButton
-                           className="read"
-                           text={'Üzenet'}
-                           icon={<RiMessage3Fill />}
-                        ></IconButton>
-                        <IconButton
-                           className="read"
-                           text={'Adatok szerkesztése'}
-                           icon={<AiFillEdit />}
-                           onClick={() =>
-                              setModals({ ...modals, showProfileModal: true })
-                           }
-                        ></IconButton>
+                        {auth.user.user_id !== user.user_id && (
+                           <>
+                              <IconButton
+                                 text={'Barátnak jelölés'}
+                                 icon={<IoMdAddCircle />}
+                                 onClick={request}
+                              ></IconButton>
+                              <IconButton
+                                 text={'Üzenet'}
+                                 icon={<RiMessage3Fill />}
+                              ></IconButton>
+                           </>
+                        )}
+                        {auth.user.user_id === user.user_id && (
+                           <IconButton
+                              text={'Adatok szerkesztése'}
+                              icon={<AiFillEdit />}
+                              onClick={() =>
+                                 setModals({
+                                    ...modals,
+                                    showProfileModal: true
+                                 })
+                              }
+                           ></IconButton>
+                        )}
                      </div>
                   </div>
                </div>

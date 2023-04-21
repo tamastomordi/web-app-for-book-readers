@@ -64,9 +64,7 @@ const Book = () => {
          .then((data) => setReviews(data.reviews))
          .catch((error) => console.log(error));
       getCoverImg(bookId)
-         .then((data) => {
-            setImage(data);
-         })
+         .then((data) => setImage(data))
          .catch((error) => console.log(error));
       return () => resetBook();
    }, [
@@ -76,7 +74,8 @@ const Book = () => {
       resetBook,
       setReading,
       setReview,
-      setReviews
+      setReviews,
+      setImage
    ]);
 
    useEffect(() => {

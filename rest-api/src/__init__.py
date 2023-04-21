@@ -7,11 +7,11 @@ from .resources.Auth import Login, Signup, Me, Logout
 from .resources.User import GetUsers, GetUserById, GetUserByUsername, GetUserByEmail, GetUserImg, UploadUserImg, EditUser
 from .resources.Book import GetBooks, GetBookById, GetCoverImg, UploadCoverImg, GetBooksLikedByUser, AddBook, GetBooksByAuthor, DeleteBook, GetUnapprovedBooks, ApproveBook
 from .resources.Author import GetAuthors, GetAuthor, GetAuthorImg, AddAuthor, UploadAuthorImg, DeleteAuthor
-from .resources.Friendship import GetFriendship, RequestFriendship, ConfirmFriendship
+from .resources.Friendship import GetFriendship, RequestFriendship, ConfirmFriendship, DeleteFriendship
 from .resources.Review import GetReviews, GetReviewsByBookId, GetReviewsByUserId, AddReview, GetReview, EditReview, DeleteReview
 from .resources.Reading import GetReadings, GetReading, GetReadingsByUserId, GetReadingsByBookId, AddReading, IsReading, EndReading
 from .resources.Like import Like, Dislike, GetNumberOfLikes, IsLiked
-from .resources.Notification import GetAllNotifications, GetActiveNotifications, AddNotification, DeactivateNotification
+from .resources.Notification import GetAllNotifications, GetActiveNotifications, AddNotification, DeactivateNotification, DeleteNotification
 
 load_dotenv()
 
@@ -73,14 +73,16 @@ def create_app():
    api.add_resource(IsLiked, "/isliked/<book_id>")
    api.add_resource(GetNumberOfLikes, "/get/likes/<book_id>")
 
-   api.add_resource(GetFriendship, "/get/friendship/<friendship_id>")
+   api.add_resource(GetFriendship, "/get/friendship/<user_id>")
    api.add_resource(RequestFriendship, "/request/friendship")
    api.add_resource(ConfirmFriendship, "/confirm/friendship")
+   api.add_resource(DeleteFriendship, "/delete/friendship/<user_id>")
 
    api.add_resource(GetAllNotifications, "/get/notifications/all")
    api.add_resource(GetActiveNotifications, "/get/notifications/active")
    api.add_resource(DeactivateNotification, "/deactivate/notification")
    api.add_resource(AddNotification, "/add/notification")
+   api.add_resource(DeleteNotification, "/delete/notification/<notification_id>")
 
    api.init_app(app)
    db.init_app(app)

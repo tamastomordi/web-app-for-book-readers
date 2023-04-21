@@ -47,3 +47,11 @@ class DeactivateNotification(Resource):
       notification.active = False
       db.session.commit()
       return {'message': 'Notification successfully deactivated'}, 200
+
+class DeleteNotification(Resource):
+   @token_required
+   def delete(current_user, self, notification_id):
+      notification = NotificationModel.query.filter_by(notification_id=notification_id, owner_id=current_user.user_id).first()
+      db.session.delete(notification)
+      db.session.commit()
+      return {'message': 'Notification successfully deactivated'}, 200

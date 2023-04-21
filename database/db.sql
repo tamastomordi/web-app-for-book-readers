@@ -89,6 +89,7 @@ CREATE TABLE notification_(
 	datetime_ TIMESTAMP WITH TIME ZONE NOT NULL,
 	active_ BOOLEAN NOT NULL DEFAULT '1',
 	owner_id_ INT NOT NULL,
+	type_ VARCHAR(255) NOT NULL,
 	user_id_ INT,
 	book_id_ INT,
 	CONSTRAINT fk_owner_ FOREIGN KEY(owner_id_) REFERENCES user_(user_id_),
