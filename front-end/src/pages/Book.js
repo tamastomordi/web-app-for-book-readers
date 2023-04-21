@@ -112,6 +112,8 @@ const Book = () => {
       }
    };
 
+   console.log();
+
    if (!book)
       return (
          <div className="loader">
@@ -145,7 +147,16 @@ const Book = () => {
                         <Badge
                            className="rating-stamp"
                            icon={<BsStarFill />}
-                           text="4.23"
+                           text={
+                              reviews.length > 0
+                                 ? (
+                                      reviews
+                                         .map((review) => review.rating)
+                                         .reduce((a, b) => a + b, 0) /
+                                      reviews.length
+                                   ).toFixed(2)
+                                 : '--'
+                           }
                         />
                         <Badge
                            className="likes-stamp"
