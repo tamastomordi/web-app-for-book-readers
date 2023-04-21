@@ -22,6 +22,17 @@ const AddAuthor = () => {
          errors.push('Leírás megadása kötelező!');
          valid = false;
       }
+      const imagefile = document.querySelector('#file');
+      if (!imagefile.files[0]) {
+         errors.push('Kép feltöltése a szerzőről kötelező!');
+         valid = false;
+      } else if (
+         imagefile.files[0].type !== 'image/jpeg' &&
+         imagefile.files[0].type !== 'image/png'
+      ) {
+         errors.push('Csak png és jpg fájl tölthető fel!');
+         valid = false;
+      }
       setForm({ ...form, errors: errors });
       return valid;
    };
@@ -93,8 +104,12 @@ const AddAuthor = () => {
                   <button className="button" type="submit">
                      Szerző hozzáadása
                   </button>
-                  {form.errors.map((error) => {
-                     return <p className="error">{error}</p>;
+                  {form.errors.map((error, index) => {
+                     return (
+                        <p key={index} className="error">
+                           {error}
+                        </p>
+                     );
                   })}
                </form>
             </div>
