@@ -43,6 +43,20 @@ class GetFriendsReadings(Resource):
          results.extend(readings_schema.dump(readings))      
       return {'readings': results}, 200
 
+class GetFriendsActiveReadings(Resource):
+   @token_required
+   def get(current_user, self):
+      friendships = FriendshipModel.query.filter(or_(FriendshipModel.user_id_1 == current_user.user_id, FriendshipModel.user_id_2 == current_user.user_id), FriendshipModel.confirmed == True).all()
+      results = []
+      for friendship in friendships_schema.dump(friendships):
+         if friendship['user_1']['user_id'] == current_user.user_id:
+            user_id = friendship['user_2']['user_id']
+         else:
+            user_id = friendship['user_1']['user_id']
+         readings = ReadingModel.query.filter_by(user_id=user_id, end=None).order_by(ReadingModel.start.desc())
+         results.extend(readings_schema.dump(readings))      
+      return {'readings': results}, 200
+
 class GetReadingsByBookId(Resource):
    def get(self, book_id):
       readings = ReadingModel.query.filter_by(book_id=book_id)

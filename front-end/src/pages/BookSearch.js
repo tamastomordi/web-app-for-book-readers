@@ -19,6 +19,10 @@ const BookSearch = () => {
       return () => clearTimeout(getData);
    }, [searchTerm, setBooks]);
 
+   useEffect(() => {
+      return () => resetBooks();
+   }, []);
+
    return (
       <div className="BookSearch">
          <div className="container">

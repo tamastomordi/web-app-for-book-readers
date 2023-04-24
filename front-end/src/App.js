@@ -22,6 +22,7 @@ import AddBook from './pages/AddBook';
 import AddAuthor from './pages/AddAuthor';
 import Admin from './pages/Admin';
 import AlertModal from './layouts/modals/AlertModal';
+import AllNotificationList from './pages/AllNotificationList';
 
 const App = () => {
    const [auth, setAuth] = useRecoilState(authState);
@@ -105,6 +106,7 @@ const App = () => {
             <Route path="/book/add" element={<AddBook />} />
             <Route path="/author/add" element={<AddAuthor />} />
             <Route path="/admin" element={<Admin />} />
+            <Route path="/notifications" element={<AllNotificationList />} />
             <Route path="*" element={<NoPage />} />
          </Routes>
          {modal && <AlertModal onClose={closeModal} />}

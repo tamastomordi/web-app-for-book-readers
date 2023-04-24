@@ -30,7 +30,7 @@ const Readings = () => {
          <div className="container">
             <div className="card -wide">
                <h2>Összes olvasás</h2>
-               <ReadingList readings={readings} />
+               <ReadingList readings={readings} showUser={false} />
             </div>
          </div>
       </div>

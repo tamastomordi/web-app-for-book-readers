@@ -1,16 +1,16 @@
 import { approveBook, deleteBook } from '../api/book';
 import Book from './Book';
 
-const ApproveBook = ({ book }) => {
+const ApproveBook = ({ book, rerender }) => {
    const handeOnApproveClick = () => {
       approveBook(book.book_id)
-         .then((data) => console.log(data))
+         .then((data) => rerender())
          .catch((error) => console.log(error));
    };
 
    const handeOnUnapproveClick = () => {
       deleteBook(book.book_id)
-         .then((data) => console.log(data))
+         .then((data) => rerender())
          .catch((error) => console.log(error));
    };
 

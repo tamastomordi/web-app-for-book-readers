@@ -44,6 +44,11 @@
       }
    }
 
+   &:disabled,
+   &[disabled] {
+      display: none;
+   }
+
    &.rate {
       &:hover {
          background-color: orange;

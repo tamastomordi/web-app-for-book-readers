@@ -53,6 +53,7 @@ const Stats = () => {
    }, [myReadings, friendsReadings]);
 
    const calculatePercentage = (friend, my) => {
+      if (friend === 0 || my === 0) return '-- %';
       if (friend > my) {
          let value = Math.round((friend / my) * 100 * 100) / 100;
          return <span className="red">{'-' + value + '%'}</span>;

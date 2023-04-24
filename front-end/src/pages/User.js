@@ -127,17 +127,11 @@ const User = () => {
                      )}
                      <div className="panel">
                         {auth.user.user_id !== user.user_id && (
-                           <>
-                              <IconButton
-                                 text={'Barátnak jelölés'}
-                                 icon={<IoMdAddCircle />}
-                                 onClick={request}
-                              ></IconButton>
-                              <IconButton
-                                 text={'Üzenet'}
-                                 icon={<RiMessage3Fill />}
-                              ></IconButton>
-                           </>
+                           <IconButton
+                              text={'Barátnak jelölés'}
+                              icon={<IoMdAddCircle />}
+                              onClick={request}
+                           ></IconButton>
                         )}
                         {auth.user.user_id === user.user_id && (
                            <IconButton
@@ -156,7 +150,7 @@ const User = () => {
                </div>
 
                <h2 className="section-title">Aktuális olvasások</h2>
-               <ReadingList readings={readings} />
+               <ReadingList readings={readings} showUser={false} />
                <Link
                   className="link"
                   to={'/user/' + user.user_id + '/readings'}

@@ -54,6 +54,28 @@ textarea {
    }
 }
 
+a {
+   display: inline-block;
+   color: var(--clr-primary-600);
+   text-decoration: none;
+   transition: 200ms;
+
+   &:after {
+      content: '';
+      width: 0px;
+      height: 2px;
+      margin-top: -0.2rem;
+      display: block;
+      background: var(--clr-primary-600);
+      transition: 200ms;
+   }
+
+   &:hover:after,
+   &:focus:after {
+      width: 100%;
+   }
+}
+
 textarea {
    resize: vertical;
    max-height: 20rem;

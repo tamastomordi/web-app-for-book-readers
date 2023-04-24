@@ -1,6 +1,7 @@
 .Reading {
    display: flex;
    gap: 1rem;
+   margin-bottom: 0.5rem;
 
    .book {
       max-width: 5rem;
@@ -12,5 +13,40 @@
 
    .title {
       font-weight: bold;
+   }
+
+   .user {
+      display: flex;
+      align-items: center;
+      justify-content: left;
+      gap: 0.5rem;
+      margin-bottom: 0.25rem;
+
+      img {
+         width: 2rem;
+         border-radius: 100%;
+      }
+   }
+
+   a {
+      display: inline-block;
+      color: var(--clr-primary-600);
+      text-decoration: none;
+      transition: 200ms;
+
+      &:after {
+         content: '';
+         width: 0px;
+         height: 2px;
+         margin-top: -0.2rem;
+         display: block;
+         background: var(--clr-primary-600);
+         transition: 200ms;
+      }
+
+      &:hover:after,
+      &:focus:after {
+         width: 100%;
+      }
    }
 }

@@ -33,3 +33,10 @@ export const getFriendsReadings = async () => {
       .catch((error) => console.log(error));
    return response.data;
 };
+
+export const getFriendsActiveReadings = async () => {
+   const response = await axios
+      .get('/get/readings/friends/active')
+      .catch((error) => console.log(error));
+   return response.data;
+};

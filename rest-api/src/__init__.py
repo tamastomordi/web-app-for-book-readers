@@ -9,7 +9,7 @@ from .resources.Book import GetBooks, GetBookById, GetCoverImg, UploadCoverImg, 
 from .resources.Author import GetAuthors, GetAuthor, GetAuthorImg, AddAuthor, UploadAuthorImg, DeleteAuthor
 from .resources.Friendship import GetFriendship, RequestFriendship, ConfirmFriendship, DeleteFriendship
 from .resources.Review import GetReviews, GetReviewsByBookId, GetReviewsByUserId, AddReview, GetReview, EditReview, DeleteReview
-from .resources.Reading import GetReadings, GetReading, GetReadingsByUserId, GetReadingsByBookId, AddReading, IsReading, EndReading, GetFriendsReadings
+from .resources.Reading import GetReadings, GetReading, GetReadingsByUserId, GetReadingsByBookId, AddReading, IsReading, EndReading, GetFriendsReadings, GetFriendsActiveReadings
 from .resources.Like import Like, Dislike, GetNumberOfLikes, IsLiked
 from .resources.Notification import GetAllNotifications, GetActiveNotifications, AddNotification, DeactivateNotification, DeleteNotification
 from .resources.Quote import GetRandomQuote
@@ -68,6 +68,7 @@ def create_app():
    api.add_resource(EndReading, "/end/reading")
    api.add_resource(IsReading, "/isreading/<book_id>")
    api.add_resource(GetFriendsReadings, "/get/readings/friends")
+   api.add_resource(GetFriendsActiveReadings, "/get/readings/friends/active")
 
    api.add_resource(Like, "/like")
    api.add_resource(Dislike, "/dislike/<book_id>")

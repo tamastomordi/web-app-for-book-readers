@@ -11,10 +11,10 @@ import {
 import { confirmFriendship, deleteFriendship } from '../api/friendship';
 import { Link } from 'react-router-dom';
 
-const Notification = ({ notification, refresh }) => {
+const Notification = ({ notification, refresh, disabled }) => {
    const onNotificationClick = () => {
       deactivateNotification(notification.notification_id)
-         .then((data) => console.log(data))
+         .then((data) => refresh())
          .catch((error) => console.log(error));
    };
 
@@ -23,7 +23,7 @@ const Notification = ({ notification, refresh }) => {
          .then((data) => {
             console.log(data);
             deactivateNotification(notification.notification_id)
-               .then((data) => console.log(data))
+               .then((data) => refresh())
                .catch((error) => console.log(error));
          })
          .catch((error) => console.log(error));
@@ -34,7 +34,7 @@ const Notification = ({ notification, refresh }) => {
          .then((data) => {
             console.log(data);
             deleteNotification(notification.notification_id)
-               .then((data) => console.log(data))
+               .then((data) => refresh())
                .catch((error) => console.log(error));
          })
          .catch((error) => console.log(error));
@@ -118,7 +118,11 @@ const Notification = ({ notification, refresh }) => {
             <IconButton icon={<IoClose />} onClick={deleteFship} />
          )}
          {notification.notification_type !== 'request' && (
-            <IconButton icon={<AiFillEye />} onClick={onNotificationClick} />
+            <IconButton
+               icon={<AiFillEye />}
+               disabled={disabled}
+               onClick={onNotificationClick}
+            />
          )}
       </div>
    );
