@@ -6,3 +6,8 @@ export const authState = atom({
       user: null
    }
 });
+
+export const loginTimeState = atom({
+   key: 'loginTimeState',
+   default: null
+});

@@ -7,13 +7,12 @@ import { Link } from 'react-router-dom';
 
 const NewNotificationList = () => {
    const [notifications, setNotifications] = useRecoilState(notificationsState);
-   const resetNotifications = useResetRecoilState(notificationsState);
+   let resetNotifications = useResetRecoilState(notificationsState);
 
    useEffect(() => {
       getNewNotifications()
          .then((data) => setNotifications(data.notifications))
          .catch((error) => console.log(error));
-      return () => resetNotifications();
    }, [setNotifications, resetNotifications]);
 
    return (

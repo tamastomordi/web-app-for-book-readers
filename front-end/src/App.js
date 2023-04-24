@@ -7,8 +7,9 @@ import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Book from './pages/Book';
-import { authState } from './recoil/atoms/Auth';
+import { authState, loginTimeState } from './recoil/atoms/Auth';
 import { me } from './api/auth';
+import { useState } from 'react';
 import './styles/_reset.scss';
 import './styles/_global.scss';
 import RedirectRoute from './layouts/RedirectRoute';
@@ -20,9 +21,12 @@ import Readings from './pages/Readings';
 import AddBook from './pages/AddBook';
 import AddAuthor from './pages/AddAuthor';
 import Admin from './pages/Admin';
+import AlertModal from './layouts/modals/AlertModal';
 
 const App = () => {
    const [auth, setAuth] = useRecoilState(authState);
+   const [loginTime, setLoginTime] = useRecoilState(loginTimeState);
+   const [modal, setModal] = useState(false);
 
    useEffect(() => {
       me()
@@ -33,6 +37,21 @@ const App = () => {
             console.log(error);
          });
    }, [setAuth]);
+
+   useEffect(() => {
+      let interval = setInterval(() => {
+         if (new Date() - loginTime >= 1000 * 60 * 15) {
+            setModal(true);
+            clearInterval(interval);
+         }
+      }, 5000);
+      return () => clearInterval(interval);
+   }, []);
+
+   const closeModal = () => {
+      setLoginTime(new Date());
+      setModal(false);
+   };
 
    return (
       <div className="App">
@@ -88,6 +107,7 @@ const App = () => {
             <Route path="/admin" element={<Admin />} />
             <Route path="*" element={<NoPage />} />
          </Routes>
+         {modal && <AlertModal onClose={closeModal} />}
       </div>
    );
 };

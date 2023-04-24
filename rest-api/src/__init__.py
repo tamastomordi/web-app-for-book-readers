@@ -9,9 +9,10 @@ from .resources.Book import GetBooks, GetBookById, GetCoverImg, UploadCoverImg, 
 from .resources.Author import GetAuthors, GetAuthor, GetAuthorImg, AddAuthor, UploadAuthorImg, DeleteAuthor
 from .resources.Friendship import GetFriendship, RequestFriendship, ConfirmFriendship, DeleteFriendship
 from .resources.Review import GetReviews, GetReviewsByBookId, GetReviewsByUserId, AddReview, GetReview, EditReview, DeleteReview
-from .resources.Reading import GetReadings, GetReading, GetReadingsByUserId, GetReadingsByBookId, AddReading, IsReading, EndReading
+from .resources.Reading import GetReadings, GetReading, GetReadingsByUserId, GetReadingsByBookId, AddReading, IsReading, EndReading, GetFriendsReadings
 from .resources.Like import Like, Dislike, GetNumberOfLikes, IsLiked
 from .resources.Notification import GetAllNotifications, GetActiveNotifications, AddNotification, DeactivateNotification, DeleteNotification
+from .resources.Quote import GetRandomQuote
 
 load_dotenv()
 
@@ -66,7 +67,7 @@ def create_app():
    api.add_resource(AddReading, "/add/reading")
    api.add_resource(EndReading, "/end/reading")
    api.add_resource(IsReading, "/isreading/<book_id>")
-
+   api.add_resource(GetFriendsReadings, "/get/readings/friends")
 
    api.add_resource(Like, "/like")
    api.add_resource(Dislike, "/dislike/<book_id>")
@@ -83,6 +84,8 @@ def create_app():
    api.add_resource(DeactivateNotification, "/deactivate/notification")
    api.add_resource(AddNotification, "/add/notification")
    api.add_resource(DeleteNotification, "/delete/notification/<notification_id>")
+
+   api.add_resource(GetRandomQuote, "/get/quote")
 
    api.init_app(app)
    db.init_app(app)

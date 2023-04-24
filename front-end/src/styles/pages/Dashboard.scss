@@ -10,8 +10,8 @@
       &:after {
          content: '';
          width: 0px;
-         height: 3px;
-         margin-top: -0.5rem;
+         height: 2px;
+         margin-top: -0.2rem;
          display: block;
          background: var(--clr-primary-600);
          transition: 200ms;
@@ -34,7 +34,7 @@
    .NewNotificationList .grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 2rem;
+      gap: 0rem 1rem;
    }
 
    .admin-button {

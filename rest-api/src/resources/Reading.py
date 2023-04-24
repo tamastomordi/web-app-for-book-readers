@@ -1,8 +1,15 @@
 from flask_restful import Resource, reqparse
+from sqlalchemy.sql.expression import or_
 from ..models.ReadingModel import ReadingModel
+from ..models.UserModel import UserModel
+from ..models.FriendshipModel import FriendshipModel
+from ..models.NotificationModel import NotificationModel
 from ..schemas.ReadingSchema import reading_schema, readings_schema
+from ..schemas.UserSchema import user_schema, users_schema
+from ..schemas.FriendshipSchema import friendship_schema, friendships_schema
 from ..common.extensions import db
 from ..common.auth import token_required
+from datetime import datetime
 
 class GetReadings(Resource):
    def get(self):
@@ -20,6 +27,20 @@ class GetReadingsByUserId(Resource):
    def get(self, user_id):
       readings = ReadingModel.query.filter_by(user_id=user_id).order_by(ReadingModel.end.desc(), ReadingModel.start.desc()).all()
       results = readings_schema.dump(readings)
+      return {'readings': results}, 200
+
+class GetFriendsReadings(Resource):
+   @token_required
+   def get(current_user, self):
+      friendships = FriendshipModel.query.filter(or_(FriendshipModel.user_id_1 == current_user.user_id, FriendshipModel.user_id_2 == current_user.user_id), FriendshipModel.confirmed == True).all()
+      results = []
+      for friendship in friendships_schema.dump(friendships):
+         if friendship['user_1']['user_id'] == current_user.user_id:
+            user_id = friendship['user_2']['user_id']
+         else:
+            user_id = friendship['user_1']['user_id']
+         readings = ReadingModel.query.filter_by(user_id=user_id).order_by(ReadingModel.start.desc())
+         results.extend(readings_schema.dump(readings))      
       return {'readings': results}, 200
 
 class GetReadingsByBookId(Resource):
@@ -40,6 +61,14 @@ class AddReading(Resource):
       args = self.reqparse.parse_args()
       reading = ReadingModel(book_id=args['book_id'], user_id=current_user.user_id, start=args['start'])
       db.session.add(reading)
+      friendships = FriendshipModel.query.filter(or_(FriendshipModel.user_id_1 == current_user.user_id, FriendshipModel.user_id_2 == current_user.user_id), FriendshipModel.confirmed == True).all()
+      for friendship in friendships_schema.dump(friendships):
+         if friendship['user_1']['user_id'] == current_user.user_id:
+            user_id = friendship['user_2']['user_id']
+         else:
+            user_id = friendship['user_1']['user_id']
+         new_notification = NotificationModel(datetime=datetime.now(), owner_id=user_id, user_id=current_user.user_id, book_id=args['book_id'], notification_type="start_reading")
+         db.session.add(new_notification)
       db.session.commit()
       return {'message': 'Reading successfully added'}, 201
 
@@ -65,5 +94,13 @@ class EndReading(Resource):
       reading = ReadingModel.query.filter_by(user_id=current_user.user_id, book_id=args['book_id'], end=None).first()
       if reading:
          reading.end = args['end']
+         friendships = FriendshipModel.query.filter(or_(FriendshipModel.user_id_1 == current_user.user_id, FriendshipModel.user_id_2 == current_user.user_id), FriendshipModel.confirmed == True).all()
+         for friendship in friendships_schema.dump(friendships):
+            if friendship['user_1']['user_id'] == current_user.user_id:
+               user_id = friendship['user_2']['user_id']
+            else:
+               user_id = friendship['user_1']['user_id']
+            new_notification = NotificationModel(datetime=datetime.now(), owner_id=user_id, user_id=current_user.user_id, book_id=args['book_id'], notification_type="end_reading")
+            db.session.add(new_notification)
       db.session.commit()
       return {'message': 'Reading successfully ended'}, 201

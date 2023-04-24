@@ -23,6 +23,7 @@ import { reviewsState } from '../recoil/atoms/Review';
 import Badge from '../components/Badge';
 import { authState } from '../recoil/atoms/Auth';
 import { requestFriendship } from '../api/friendship';
+import user_img from '../assets/user_img.svg';
 
 const User = () => {
    const { userId } = useParams();
@@ -77,12 +78,14 @@ const User = () => {
          <div className="container">
             <div className="card -wide">
                <div className="flex">
-                  {user.user_img && (
+                  {user.user_img ? (
                      <img
                         className="user-img"
                         alt="Profilkép"
                         src={`data:;base64,${image}`}
                      />
+                  ) : (
+                     <img src={user_img} />
                   )}
                   <div className="details">
                      <h2 className="username">

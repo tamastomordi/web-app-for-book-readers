@@ -35,7 +35,7 @@ class RequestFriendship(Resource):
       if friendship:
          return {'message': 'Friendship already exist'}, 400
       new_friendship = FriendshipModel(user_id_1=current_user.user_id, user_id_2=args['user_id'], confirmed=False)
-      new_notification = NotificationModel(title='Jelölés', text=current_user.username+' barátnak jelölt.', notification_type='request', datetime=datetime.now(), owner_id=args['user_id'], user_id=current_user.user_id)
+      new_notification = NotificationModel(notification_type='request', datetime=datetime.now(), owner_id=args['user_id'], user_id=current_user.user_id)
       db.session.add(new_friendship)
       db.session.add(new_notification)
       db.session.commit()
@@ -67,7 +67,7 @@ class ConfirmFriendship(Resource):
       args = self.reqparse.parse_args()
       friendship = FriendshipModel.query.filter_by(user_id_1=args['user_id'], user_id_2=current_user.user_id).first()
       friendship.confirmed = True
-      new_notification = NotificationModel(title='Elfogadva', text=current_user.username+' elfogadta a jelölésed.', datetime=datetime.now(), owner_id=args['user_id'], user_id=current_user.user_id)
+      new_notification = NotificationModel(notification_type='approve', datetime=datetime.now(), owner_id=args['user_id'], user_id=current_user.user_id)
       db.session.add(new_notification)
       db.session.commit()
       return {'message': 'Friendship successfully confirmed'}, 201

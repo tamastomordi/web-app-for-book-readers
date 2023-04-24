@@ -1,9 +1,6 @@
-import { Link } from 'react-router-dom';
 import '../styles/layouts/ReviewList.scss';
-import user_img from '../assets/user_img.svg';
-import { BsStarFill } from 'react-icons/bs';
-import calculateTime from '../utils/calculateTime';
 import { PulseLoader } from 'react-spinners';
+import Review from '../components/Review';
 
 const ReviewList = ({ reviews }) => {
    if (!reviews)
@@ -13,30 +10,13 @@ const ReviewList = ({ reviews }) => {
          </div>
       );
 
+   if (reviews.length === 0)
+      return <p className="empty">Nincs megjeleníthető értékelés</p>;
+
    return (
       <div className="ReviewList">
          {reviews.map((review, index) => (
-            <div key={index} className="review">
-               <div className="header">
-                  <img src={user_img} alt="" />
-                  <Link
-                     to={'/user/' + review.user.user_id}
-                     className="username"
-                  >
-                     {review.user.username}
-                  </Link>
-                  <p className="datetime">{calculateTime(review.datetime)}</p>
-                  <p className="rating">
-                     <BsStarFill className={review.rating >= 1 && 'checked'} />
-                     <BsStarFill className={review.rating >= 2 && 'checked'} />
-                     <BsStarFill className={review.rating >= 3 && 'checked'} />
-                     <BsStarFill className={review.rating >= 4 && 'checked'} />
-                     <BsStarFill className={review.rating >= 5 && 'checked'} />
-                  </p>
-               </div>
-
-               <p className="review-text">{review.review_text}</p>
-            </div>
+            <Review review={review} />
          ))}
       </div>
    );

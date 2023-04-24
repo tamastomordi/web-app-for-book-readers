@@ -30,6 +30,15 @@ const Header = () => {
                   {auth.user ? (
                      <ul>
                         <li>
+                           <Link to="/books">Keresés</Link>
+                        </li>
+                        <li>
+                           <Link to="/author/add">Új szerző</Link>
+                        </li>
+                        <li>
+                           <Link to="/book/add">Új könyv</Link>
+                        </li>
+                        <li>
                            <Link onClick={onLogoutClick}>Kijelentkezés</Link>
                         </li>
                      </ul>

@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { authState } from '../../recoil/atoms/Auth';
 import { modalsState } from '../../recoil/atoms/Modals';
 import { profileFormState } from '../../recoil/atoms/User';
-import { editProfile } from '../../api/user';
+import { editProfile, uploadUserImage } from '../../api/user';
 
 const EditProfileModal = () => {
    const [auth, setAuth] = useRecoilState(authState);
@@ -31,6 +31,15 @@ const EditProfileModal = () => {
             setModals({ ...modals, showProfileModal: false });
          })
          .catch((error) => console.log(error));
+      let formData = new FormData();
+      const imagefile = document.querySelector('#file');
+      if (imagefile.files[0]) {
+         formData.append('user_img', imagefile.files[0]);
+         formData.append('user_id', auth.user.user_id);
+         uploadUserImage(formData)
+            .then((data) => console.log(data))
+            .catch((error) => console.log(error));
+      }
    };
 
    return (
@@ -48,6 +57,8 @@ const EditProfileModal = () => {
                   setProfileForm({ ...profileForm, full_name: e.target.value })
                }
             />
+            <label>Profilkép feltöltése:</label>
+            <input type="file" id="file" />
             <input
                placeholder="Lakhely"
                type="text"

@@ -96,3 +96,9 @@ CREATE TABLE notification_(
 	CONSTRAINT fk_user_ FOREIGN KEY(user_id_) REFERENCES user_(user_id_),
 	CONSTRAINT fk_book_ FOREIGN KEY(book_id_) REFERENCES book_(book_id_)
 );
+
+CREATE TABLE quote_(
+	quote_id_ SERIAL PRIMARY KEY,
+	text_ TEXT NOT NULL,
+	by_ VARCHAR(255)
+);

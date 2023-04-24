@@ -26,3 +26,10 @@ export const getReadings = async (userId) => {
       .catch((error) => console.log(error));
    return response.data;
 };
+
+export const getFriendsReadings = async () => {
+   const response = await axios
+      .get('/get/readings/friends')
+      .catch((error) => console.log(error));
+   return response.data;
+};

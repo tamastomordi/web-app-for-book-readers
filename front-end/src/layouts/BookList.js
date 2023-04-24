@@ -3,12 +3,7 @@ import { PulseLoader } from 'react-spinners';
 import Book from './Book';
 
 const BookList = ({ books }) => {
-   if (books.length === 0)
-      return (
-         <div className="loader">
-            <PulseLoader color="rgb(20, 20, 20)" />
-         </div>
-      );
+   if (books.length === 0) return <p>Nincs megjeleníthető könyv</p>;
 
    return (
       <div className="BookList">

@@ -1,7 +1,7 @@
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import { loginFormInputsState } from '../recoil/atoms/LoginForm';
-import { authState } from '../recoil/atoms/Auth';
+import { authState, loginTimeState } from '../recoil/atoms/Auth';
 import { login } from '../api/auth';
 import { useEffect } from 'react';
 
@@ -10,6 +10,7 @@ const LoginForm = () => {
    const [auth, setAuth] = useRecoilState(authState);
    const resetForm = useResetRecoilState(loginFormInputsState);
    const navigate = useNavigate();
+   const [loginTime, setLoginTime] = useRecoilState(loginTimeState);
 
    useEffect(() => {
       return resetForm;
@@ -20,6 +21,7 @@ const LoginForm = () => {
       login(form.username, form.password)
          .then((user) => {
             setAuth({ user: user });
+            setLoginTime(new Date());
             navigate('/dashboard');
          })
          .catch((error) => {

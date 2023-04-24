@@ -4,7 +4,6 @@ const RedirectRoute = ({ condition, to, children }) => {
    if (!condition) {
       return <Navigate to={to} replace />;
    }
-
    return children;
 };
 

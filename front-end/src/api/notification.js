@@ -25,7 +25,7 @@ export const deactivateNotification = async (notificationId) => {
 
 export const deleteNotification = async (notificationId) => {
    const response = await axios
-      .get('/delete/notification/' + notificationId)
+      .delete('/delete/notification/' + notificationId)
       .catch((error) => console.log(error));
    return response.data;
 };

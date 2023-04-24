@@ -21,15 +21,14 @@ class GetActiveNotifications(Resource):
 class AddNotification(Resource):
    def __init__(self):
       self.reqparse = reqparse.RequestParser()
-      self.reqparse.add_argument('title')
-      self.reqparse.add_argument('text')
       self.reqparse.add_argument('datetime')
       self.reqparse.add_argument('owner_id')
+      self.reqparse.add_argument('notification_type')
       super(AddNotification, self).__init__()
 
    def post(self):
       args = self.reqparse.parse_args()
-      new_notification = NotificationModel(title=args['title'], text=args['text'], datetime=args['datetime'], owner_id=args['owner_id'])
+      new_notification = NotificationModel(datetime=args['datetime'], owner_id=args['owner_id'], notification_type=args['notification_type'])
       db.session.add(new_notification)
       db.session.commit()
       return {'message': 'Notification successfully added'}, 201
@@ -54,4 +53,4 @@ class DeleteNotification(Resource):
       notification = NotificationModel.query.filter_by(notification_id=notification_id, owner_id=current_user.user_id).first()
       db.session.delete(notification)
       db.session.commit()
-      return {'message': 'Notification successfully deactivated'}, 200
+      return {'message': 'Notification successfully deleted'}, 200

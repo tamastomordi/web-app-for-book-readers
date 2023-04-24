@@ -14,6 +14,7 @@
 
       img {
          width: 2rem;
+         border-radius: 100%;
       }
 
       .username {
@@ -39,4 +40,8 @@
          margin-top: 0.5rem;
       }
    }
+}
+
+.empty {
+   margin-top: 1rem;
 }

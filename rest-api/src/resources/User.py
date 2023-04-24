@@ -69,7 +69,7 @@ class UploadUserImg(Resource):
       if user and user_img and allowed_file(user_img.filename):
          path = FOLDER+'/'+args['user_id']+'.'+get_extension(user_img.filename)
          user_img.save(path)
-         user.user_img_file = args['user_id']+'.'+get_extension(user_img.filename)
+         user.user_img = args['user_id']+'.'+get_extension(user_img.filename)
          db.session.add(user)
          db.session.commit()
          return {'message': 'User img successfully added'}, 201

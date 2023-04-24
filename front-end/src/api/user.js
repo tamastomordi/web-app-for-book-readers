@@ -26,3 +26,14 @@ export const getUserImg = async (userId) => {
       .catch((error) => console.log(error));
    return response.data;
 };
+
+export const uploadUserImage = async (formData) => {
+   const response = await axios
+      .post('/upload/user/user_img', formData, {
+         headers: {
+            'Content-Type': 'multipart/form-data'
+         }
+      })
+      .catch((error) => console.log(error));
+   return response.data;
+};

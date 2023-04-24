@@ -7,8 +7,6 @@ class NotificationModel(db.Model):
 
    notification_id = db.Column('notification_id_', db.Integer, primary_key=True)
 
-   title = db.Column('title_', db.String(255))
-   text = db.Column('text_', db.Text)
    datetime = db.Column('datetime_', db.DateTime)
    active = db.Column('active_', db.Boolean, default=True)
    notification_type = db.Column('type_', db.String(255))
